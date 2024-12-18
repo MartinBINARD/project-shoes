@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 const [fontsLoaded] = useFonts({
   Light: require("./assets/fonts/Montserrat-Light.ttf"),
@@ -10,12 +10,13 @@ const [fontsLoaded] = useFonts({
 });
 
 export default function App() {
-  return (
+  return fontsLoaded ? (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <TextBoldS blue>Open up App.js to start working on your app!</TextBoldS>
+      <TextBoldXl>Open up App.js to start working on your app!</TextBoldXl>
       <StatusBar style="auto" />
     </View>
-  );
+  ) : null;
 }
 
 const styles = StyleSheet.create({
