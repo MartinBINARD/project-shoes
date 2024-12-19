@@ -1,19 +1,22 @@
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
+import TextBoldS from "./ui-components/texts/TextBoldS";
+import TextBoldXL from "./ui-components/texts/TextBoldXL";
 
-const [fontsLoaded] = useFonts({
-  Light: require("./assets/fonts/Montserrat-Light.ttf"),
-  Regular: require("./assets/fonts/Montserrat-Regular.ttf"),
-  Medium: require("./assets/fonts/Montserrat-Medium.ttf"),
-  SemiBold: require("./assets/fonts/Montserrat-SemiBold.ttf"),
-});
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Light: require("./assets/fonts/Montserrat-Light.ttf"),
+    Regular: require("./assets/fonts/Montserrat-Regular.ttf"),
+    Medium: require("./assets/fonts/Montserrat-Medium.ttf"),
+    SemiBold: require("./assets/fonts/Montserrat-SemiBold.ttf"),
+  });
+
   return fontsLoaded ? (
     <View style={styles.container}>
       <TextBoldS blue>Open up App.js to start working on your app!</TextBoldS>
-      <TextBoldXl>Open up App.js to start working on your app!</TextBoldXl>
+      <TextBoldXL>Open up App.js to start working on your app!</TextBoldXL>
       <StatusBar style="auto" />
     </View>
   ) : null;
