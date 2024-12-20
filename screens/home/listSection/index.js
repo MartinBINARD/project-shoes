@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
     paddingVertical: spaces.L,
     borderWidth:1
   },
-});
+}); 
