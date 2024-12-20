@@ -1,16 +1,31 @@
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { colors } from "../../constants/colors";
 import ListSection from "./listSection";
 import NewsSection from "./newsSection";
 import SearchSection from "./searchSection";
 
 export default function HomeScreen() {
+  const [inputValue, setInputValue] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("nike");
+
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar />
       <View style={{ width: "100%", backgroundColor: "#000000", height: 60 }} />
-      <SearchSection />
-      <ListSection />
-      <NewsSection />
+      <SearchSection
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        selectedBrand={selectedBrand}
+        setSelectedBrand={setSelectedBrand}
+      />
+      <ListSection selectedBrand={selectedBrand} inputValue={inputValue} />
+      <NewsSection selectedBrand={selectedBrand} />
       <View
         style={{ width: "100%", backgroundColor: "#000000", height: 106 }}
       />

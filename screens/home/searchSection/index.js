@@ -1,10 +1,13 @@
-import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import SearchInput from "../../../ui-components/inputs/SearchInput";
 import BrandsList from "./components/BrandList";
 
-export default function SearchSection() {
-  const [inputValue, setInputValue] = useState("");
+export default function SearchSection({
+  inputValue,
+  setInputValue,
+  selectedBrand,
+  setSelectedBrand,
+}) {
   return (
     <View style={styles.container}>
       <SearchInput
@@ -12,7 +15,10 @@ export default function SearchSection() {
         value={inputValue}
         onChangeText={setInputValue}
       />
-      <BrandsList />
+      <BrandsList
+        selectedBrand={selectedBrand}
+        setSelectedBrand={setSelectedBrand}
+      />
     </View>
   );
 }

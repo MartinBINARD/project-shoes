@@ -5,12 +5,20 @@ import { shoes } from "../../../../data/shoes";
 import ItemSeparator from "../../../../ui-components/separators/ListItemSeparator";
 import Verticalcard from "./VerticalCard";
 
-export default function ShoesList() {
-  const data = shoes[0].stock.filter((item) => !item.new);
+export default function ShoesList({ selectedBrand, inputValue }) {
+  const data = shoes
+    .find((elem) => elem.brand === selectedBrand)
+    .stock.filter((item) => !item.new);
+
+  const fitleredData = inputValue
+    ? data.filter((elem) =>
+        elem.name.toLowerCase().includes(inputValue.toLowerCase())
+      )
+    : data;
 
   return (
     <FlatList
-      data={data}
+      data={fitleredData}
       renderItem={({ item }) => <Verticalcard item={item} />}
       horizontal
       ItemSeparatorComponent={<ItemSeparator width={spaces.L} />}
