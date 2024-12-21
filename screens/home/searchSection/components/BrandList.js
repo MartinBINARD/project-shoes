@@ -10,6 +10,7 @@ export default function BrandsList({ selectedBrand, setSelectedBrand }) {
       horizontal
       showsHorizontalScrollIndicator={false}
       data={brands}
+      bounces={false}
       keyExtractor={(item) => item.name}
       renderItem={({ item, index }) => (
         <BrandItem

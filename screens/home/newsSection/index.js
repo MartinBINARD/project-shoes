@@ -19,6 +19,7 @@ export default function NewsSection({ selectedBrand }) {
 const styles = StyleSheet.create({
   container: {
     flex: 160,
+    minHeight: 160,
     paddingVertical: spaces.M,
   },
 });

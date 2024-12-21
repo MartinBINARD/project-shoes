@@ -15,6 +15,7 @@ export default function ListSection({ selectedBrand, inputValue }) {
 const styles = StyleSheet.create({
   container: {
     flex: 240,
+    minHeight: 340,
     paddingVertical: spaces.L,
   },
 }); 
