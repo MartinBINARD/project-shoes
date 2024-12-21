@@ -4,6 +4,7 @@ import { colors } from "../../constants/colors";
 import { radius } from "../../constants/radius";
 import { spaces } from "../../constants/spaces";
 import { textSize } from "../../constants/textSize";
+import { IS_SMALL_SCREEN } from "../../constants/sizes";
 
 export default function SearchInput({ placeholder, value, onChangeText }) {
   return (
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
     marginHorizontal: spaces.L,
     borderRadius: radius.FULL,
-    height: 50,
+    height: IS_SMALL_SCREEN ? 44 : 50,
     maxWidth: 360,
   },
   searchIcon: {

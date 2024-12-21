@@ -1,6 +1,7 @@
 import { Image, StyleSheet, View } from "react-native";
 import { colors } from "../../../../constants/colors";
 import { radius } from "../../../../constants/radius";
+import { IS_LARGE_SCREEN } from "../../../../constants/sizes";
 import { spaces } from "../../../../constants/spaces";
 import TextBoldM from "../../../../ui-components/texts/TextBoldM";
 import TextBoldXL from "../../../../ui-components/texts/TextBoldXL";
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "90%",
     justifyContent: "space-between",
-    padding: spaces.L,
+    padding: IS_LARGE_SCREEN ? spaces.XL * 1.5 : spaces.L,
   },
   imageContainer: {
     flex: 1,
@@ -50,8 +51,8 @@ const styles = StyleSheet.create({
     transform: [
       { rotate: "-20deg" },
       { translateX: -spaces.M },
-      { translateY: -spaces.L },
-      { scale: 1.3 },
+      { translateY: IS_LARGE_SCREEN ? -spaces.XL : -spaces.L },
+      { scale: IS_LARGE_SCREEN ? 1.1 : 1.3 },
     ],
   },
 });
