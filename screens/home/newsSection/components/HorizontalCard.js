@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, useWindowDimensions, View } from "react-native";
 import { colors } from "../../../../constants/colors";
 import { radius } from "../../../../constants/radius";
 import { IS_LARGE_SCREEN } from "../../../../constants/sizes";
@@ -8,8 +8,19 @@ import TextBoldXL from "../../../../ui-components/texts/TextBoldXL";
 import TextMediumM from "../../../../ui-components/texts/TextMediumM";
 
 export default function HorizontalCard({ item }) {
+  const { height } = useWindowDimensions();
+    const landscapeImageStyle = {
+      width: "100%",
+      height: "100%",
+      transform: [
+        { rotate: "-20deg" },
+        { translateX: -spaces.M },
+        { translateY: -spaces.L },
+        { scale: 0.8},
+      ],
+    }
   return (
-    <View style={styles.container}>
+    <View style={height < 400 ? landscapeImageStyle :  styles.container}>
       <View style={styles.descriptionContainer}>
         <View>
           <TextMediumM blue>MEILLEUR CHOIX</TextMediumM>
