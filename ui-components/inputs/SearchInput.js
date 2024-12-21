@@ -1,10 +1,10 @@
 import { EvilIcons } from "@expo/vector-icons";
-import { StyleSheet, TextInput, View } from "react-native";
+import { Platform, StyleSheet, TextInput, View } from "react-native";
 import { colors } from "../../constants/colors";
 import { radius } from "../../constants/radius";
+import { IS_SMALL_SCREEN } from "../../constants/sizes";
 import { spaces } from "../../constants/spaces";
 import { textSize } from "../../constants/textSize";
-import { IS_SMALL_SCREEN } from "../../constants/sizes";
 
 export default function SearchInput({ placeholder, value, onChangeText }) {
   return (
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     marginHorizontal: spaces.M,
+    marginBottom: Platform.select({ android: spaces.XS, ios: 0}),
   },
   input: {
     flex: 1,
