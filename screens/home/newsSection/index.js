@@ -17,8 +17,8 @@ export default function NewsSection({ selectedBrand }) {
     .stock.find((elem) => elem.new);
   return (
     <View style={height < 400 ? landscapeStyle : styles.container}>
-      <Banner text="Nouveautés" />
       <HorizontalCard item={item} />
+      <Banner text="Nouveautés" />
     </View>
   );
 }
@@ -26,6 +26,7 @@ export default function NewsSection({ selectedBrand }) {
 const styles = StyleSheet.create({
   container: {
     flex: 160,
+    flexDirection: "column-reverse",
     minHeight: IS_LARGE_SCREEN ? 320 : 160,
     paddingVertical: spaces.M,
   },
