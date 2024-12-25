@@ -4,10 +4,13 @@ import { spaces } from "../../../constants/spaces";
 import Banner from "../components/Banner";
 import ShoesList from "./components/ShoesList";
 
-export default function ListSection({ selectedBrand, inputValue }) {
+export default function ListSection({ selectedBrand, inputValue, navigation }) {
+  const navigateToList = () => {
+    navigation.navigate('List', { brand: selectedBrand});
+  }
   return (
     <View style={styles.container}>
-      <Banner text="Shoes populaires" />
+      <Banner text="Shoes populaires" navigate={navigateToList} />
       <ShoesList selectedBrand={selectedBrand} inputValue={inputValue} />
     </View>
   );

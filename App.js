@@ -1,5 +1,5 @@
 import { useFonts } from "expo-font";
-import HomeScreen from "./screens/home";
+import StackNavigator from "./navigators/StackNavigators";
 
 
 export default function App() {
@@ -11,6 +11,6 @@ export default function App() {
   });
 
   return fontsLoaded ? (
-    <HomeScreen />
+    <StackNavigator />
   ) : null;
 }

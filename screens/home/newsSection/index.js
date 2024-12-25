@@ -4,8 +4,10 @@ import { spaces } from "../../../constants/spaces";
 import { shoes } from "../../../data/shoes";
 import Banner from "../components/Banner";
 import HorizontalCard from "./components/HorizontalCard";
+import { useNavigation } from "@react-navigation/native";
 
 export default function NewsSection({ selectedBrand }) {
+  const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const landscapeStyle = {
     flex: 160,
@@ -15,10 +17,14 @@ export default function NewsSection({ selectedBrand }) {
   const item = shoes
     .find((elem) => elem.brand === selectedBrand)
     .stock.find((elem) => elem.new);
+
+  const navigateToNewsList = () => {
+    navigation.navigate('NewsList');
+  }
   return (
     <View style={height < 400 ? landscapeStyle : styles.container}>
       <HorizontalCard item={item} />
-      <Banner text="Nouveautés" />
+      <Banner text="Nouveautés" navigate={navigateToNewsList} />
     </View>
   );
 }
