@@ -2,8 +2,8 @@ import { FlatList, StyleSheet } from "react-native";
 import { spaces } from "../../../../constants/spaces";
 import { shoes } from "../../../../data/shoes";
 
-import ItemSeparator from "../../../../ui-components/separators/ListItemSeparator";
-import Verticalcard from "./VerticalCard";
+import VerticalCard from "../../../../ui-components/cards/VerticalCard";
+import ListItemSeparator from "../../../../ui-components/separators/ListItemSeparator";
 
 export default function ShoesList({ selectedBrand, inputValue }) {
   const data = shoes
@@ -19,9 +19,9 @@ export default function ShoesList({ selectedBrand, inputValue }) {
   return (
     <FlatList
       data={fitleredData}
-      renderItem={({ item }) => <Verticalcard item={item} />}
+      renderItem={({ item }) => <VerticalCard item={item} />}
       horizontal
-      ItemSeparatorComponent={<ItemSeparator width={spaces.L} />}
+      ItemSeparatorComponent={<ListItemSeparator width={spaces.L} />}
       contentContainerStyle={styles.listContainer}
       showsHorizontalScrollIndicator={false}
     />

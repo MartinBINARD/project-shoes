@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet } from "react-native";
 import { spaces } from "../../../../constants/spaces";
 import { brands } from "../../../../data/brands";
-import ItemSeparator from "../../../../ui-components/separators/ListItemSeparator";
+import ListItemSeparator from "../../../../ui-components/separators/ListItemSeparator";
 import BrandItem from "./BrandItem";
 
 export default function BrandsList({ selectedBrand, setSelectedBrand }) {
@@ -21,7 +21,7 @@ export default function BrandsList({ selectedBrand, setSelectedBrand }) {
         />
       )}
       style={styles.listContainer}
-      ItemSeparatorComponent={<ItemSeparator width={spaces.S} />}
+      ItemSeparatorComponent={<ListItemSeparator width={spaces.S} />}
     />
   );
 }
