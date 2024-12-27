@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SCREEN_HEIGHT } from "../../constants/sizes";
 import { spaces } from "../../constants/spaces";
@@ -9,13 +9,20 @@ import DetailsImage from "./components/DetailsImage";
 import Gallery from "./components/Gallery";
 import Sizes from "./components/Sizes";
 
-export default function Details() {
-  const data = shoes[0].stock[0];
-  const imageSource = data.items[0].image;
+export default function Details({ route }) {
+  const data = shoes
+    .find(shoe => shoe.stock.find(item => item.id === route.params.id))
+    .stock.find(item => item.id === route.params.id);
+  
   const images = data.items.map(item => item.image);
-  const sizes = data.items[0].sizes;
   const [selectedImage, setSelectedImage] = useState(data.items[0].image);
   const [selectedSize, setSelectedSize] = useState();
+  const [sizes, setSizes] = useState(data.items[0].sizes);
+
+  useEffect(() => {
+    setSizes(data.items.find(item => item.image === selectedImage).sizes);
+    setSelectedSize(undefined);
+  }, [selectedImage]);
 
   return (
     <View style={styles.mainContainer}>
