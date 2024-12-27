@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Platform, ScrollView, StyleSheet, View } from "react-native";
 import { SCREEN_HEIGHT } from "../../constants/sizes";
 import { spaces } from "../../constants/spaces";
 import { shoes } from "../../data/shoes";
@@ -9,7 +9,7 @@ import DetailsImage from "./components/DetailsImage";
 import Gallery from "./components/Gallery";
 import Sizes from "./components/Sizes";
 
-export default function Details({ route }) {
+export default function Details({ route, navigation }) {
   const data = shoes
     .find(shoe => shoe.stock.find(item => item.id === route.params.id))
     .stock.find(item => item.id === route.params.id);
@@ -23,6 +23,10 @@ export default function Details({ route }) {
     setSizes(data.items.find(item => item.image === selectedImage).sizes);
     setSelectedSize(undefined);
   }, [selectedImage]);
+
+  useEffect(() => {
+    navigation.setOptions({ title: data.gender === 'm' ? 'Shoes Homme' : 'Shoes Femme' })
+  }, [route.params.id])
 
   return (
     <View style={styles.mainContainer}>
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
   },
   container: {
     position: "relative",
-    bottom: 120,
+    bottom: Platform.select({ android: 80, ios: 100 }),
   },
   btnContainer: {
     width: "80%",

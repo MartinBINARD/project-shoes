@@ -18,12 +18,15 @@ export default function NewsSection({ selectedBrand }) {
     .find((elem) => elem.brand === selectedBrand)
     .stock.find((elem) => elem.new);
 
+  const navigateToDetails = (id) => { navigation.navigate("Details", { id: item.id })};
+  
+
   const navigateToNewsList = () => {
     navigation.navigate('NewsList');
   }
   return (
     <View style={height < 400 ? landscapeStyle : styles.container}>
-      <HorizontalCard item={item} />
+      <HorizontalCard item={item} onPress={navigateToDetails} />
       <Banner text="Nouveautés" navigate={navigateToNewsList} />
     </View>
   );

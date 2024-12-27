@@ -6,16 +6,18 @@ import { shoes } from "../../data/shoes";
 import VerticalCard from "../../ui-components/cards/VerticalCard";
 import ListItemSeparator from "../../ui-components/separators/ListItemSeparator";
 
-export default function NewsList() {
+export default function NewsList({ navigation }) {
   const items = shoes.map((brand) => {
     return brand.stock.find((item) => [item.new])
   })
+  const navigateToDetails = (id) => { navigation.navigate("Details", { id })};
+
   const renderItem = ({ item }) => (
       <View style={styles.cardContainer}>
-        <VerticalCard item={item} listScreen />
+        <VerticalCard item={item} listScreen onPress={() => navigateToDetails(item.id)} />
       </View>
     );
-  
+
   return (
     <View style={styles.container}>
       <FlatList data={items} keyExtractor={(item) => item.id} renderItem={renderItem} numColumns={2} ItemSeparatorComponent={<ListItemSeparator height={spaces.L} contentContainerStyle={styles.contentStyle} />}/>

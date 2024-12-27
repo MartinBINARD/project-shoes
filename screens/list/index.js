@@ -18,9 +18,11 @@ export default function List({ route, navigation }) {
         route.params.brand.slice(1) });
   }, [route.params.brand]);
 
+  const navigateToDetails = (id) => { navigation.navigate("Details", { id })};
+
   const renderItem = ({ item }) => (
     <View style={styles.cardContainer}>
-      <VerticalCard item={item} listScreen />
+      <VerticalCard item={item} listScreen onPress={() => navigateToDetails(item.id)} />
     </View>
   );
   
