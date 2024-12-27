@@ -2,7 +2,7 @@ import { Image, StyleSheet, View } from "react-native";
 import { SCREEN_WIDTH } from "../../../constants/sizes";
 import { spaces } from "../../../constants/spaces";
 
-export default function DeatilsImage({ source }) {
+export default function DetailsImage({ source }) {
   return (
     <View style={styles.imageContainer}>
       <Image source={source}  style={styles.image}/>

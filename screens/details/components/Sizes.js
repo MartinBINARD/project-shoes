@@ -1,11 +1,11 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { colors } from "../../../constants/colors";
 import { radius } from "../../../constants/radius";
 import { spaces } from "../../../constants/spaces";
 import TextBoldL from "../../../ui-components/texts/TextBoldL";
 import TextMediumM from "../../../ui-components/texts/TextMediumM";
 
-export default function Sizes({ sizes }) {
+export default function Sizes({ sizes, selectedSize, setSelectedSize }) {
   return (
     <View style={styles.container}>
       <TextBoldL style={styles.title}>Tailles</TextBoldL>
@@ -15,9 +15,28 @@ export default function Sizes({ sizes }) {
         style={styles.contentContainer}
       >
         {Array(9).fill(0).map((_, index) => (
-          <View key={index} style={[styles.sizeContainer, sizes.includes(index + 37) ? styles.availableSizeContainer : styles.unavailableSizeContainer]}>
-            <TextMediumM style={styles.sizeText}>{index + 37}</TextMediumM>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              if(sizes.includes(index + 37)) {
+                setSelectedSize(index + 37);
+              }
+            }}
+            activeOpacity={0.8}
+            key={index}
+            style={[
+              styles.sizeContainer,
+              selectedSize === index + 37
+              ? styles.selectedSizeContainer : sizes.includes(index + 37)
+              ? styles.availableSizeContainer : styles.unavailableSizeContainer
+            ]}
+          >
+            <TextMediumM style={[
+              selectedSize === index + 37
+              ? styles.selectedSizeText : styles.sizeText
+            ]}>
+              {index + 37}
+            </TextMediumM>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -46,6 +65,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: spaces.S
   },
+  selectedSizeContainer: {
+    backgroundColor: colors.BLUE,
+    borderColor: colors.BLUE,
+    elevation: 4,
+    shadowColor: colors.DARK,
+    shadowOffset: {
+      width: 2,
+      height: 2
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 4
+  },
   availableSizeContainer: {
     backgroundColor: colors.LIGHT,
     borderColor: colors.BLUE,
@@ -57,4 +88,7 @@ const styles = StyleSheet.create({
   sizeText: {
     color: colors.DARK
   },
+  selectedSizeText: {
+    color: colors.WHITE
+  }
 })
