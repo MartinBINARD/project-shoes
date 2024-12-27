@@ -3,9 +3,9 @@ import { StyleSheet, Text } from "react-native";
 import { colors } from "../../constants/colors";
 import { textSize } from "../../constants/textSize";
 
-const TextBoldXL = ({ children, blue = false }) => {
+const TextBoldXL = ({ children, blue = false, style }) => {
   return (
-    <Text style={[styles.txt, { color: blue ? colors.BLUE : colors.DARK }]}>
+    <Text style={[styles.txt, { color: blue ? colors.BLUE : colors.DARK }, style]}>
       {children}
     </Text>
   );

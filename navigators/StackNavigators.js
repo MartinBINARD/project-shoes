@@ -6,6 +6,7 @@ import { colors } from "../constants/colors";
 import HomeScreen from "../screens/home";
 import List from "../screens/list";
 import NewsList from "../screens/newsList";
+import Details from "../screens/details";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ export default function StackNavigator() {
          }} />
         <Stack.Screen component={List} name="List" />
         <Stack.Screen component={NewsList} name="NewsList" options={{ title: "Nouveautés" }} />
+        <Stack.Screen component={Details} name="Details" />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,4 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { Image, Platform, StyleSheet, View } from "react-native";
 import { colors } from "../../constants/colors";
 import { radius } from "../../constants/radius";
@@ -10,11 +11,12 @@ import TextMediumS from "../texts/TextMediumS";
 import Touchable from "../touchable/Touchable";
 
 export default function VerticalCard({ item, listScreen = false }) {
+  const navigation = useNavigation();
   const colors = item.items.map((elem) => elem.color);
 
   return (
     <View style={styles.container}>
-      <Touchable style={styles.touchableContainer}>
+      <Touchable style={styles.touchableContainer} onPress={() => navigation.navigate("Details")}>
         <View style={styles.touchableContainer}>
           <View style={styles.imageContainer}>
             <Image source={item.items[0].image} style={styles.image} />

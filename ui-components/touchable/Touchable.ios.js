@@ -1,8 +1,13 @@
 import { TouchableOpacity } from "react-native"
-import { colors } from "../../constants/colors"
 
-export default function Touchable({ styles, children}) {
+export default function Touchable({ styles, children, onPress}) {
   return (
-    <TouchableOpacity activeOpacity={0.7} style={styles}>{children}</TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={styles}
+      onPress={onPress}
+    >
+      {children}
+    </TouchableOpacity>
   )
 }
