@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import BottomTabsNavigator from "./navigators/BottomTabsNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import MainStackNavigators from "./navigators/MainStackNavigator";
 
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
   return fontsLoaded ? (
     <SafeAreaProvider>
       <NavigationContainer>
-        <BottomTabsNavigator />
+        <MainStackNavigators />
       </NavigationContainer>
     </SafeAreaProvider>
     

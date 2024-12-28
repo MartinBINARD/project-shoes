@@ -1,13 +1,19 @@
-import { TouchableNativeFeedback } from "react-native"
-import { colors } from "../../constants/colors"
+import { TouchableNativeFeedback } from "react-native";
+import { colors } from "../../constants/colors";
 
-export default function Touchable({ styles, children, onPress, color = colors.LIGHT }) {
+export default function Touchable({
+  styles,
+  children,
+  onPress,
+  color = colors.LIGHT,
+}) {
   return (
-    <TouchableNativeFeedback 
+    <TouchableNativeFeedback
       style={styles}
-      background={TouchableNativeFeedback.Ripple(color , true)} onPress={onPress}
+      background={TouchableNativeFeedback.Ripple(color, false)}
+      onPress={onPress}
     >
       {children}
     </TouchableNativeFeedback>
-  )
+  );
 }
