@@ -3,8 +3,7 @@ import { useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
-  StyleSheet,
-  View,
+  StyleSheet
 } from "react-native";
 import { colors } from "../../constants/colors";
 import ListSection from "./listSection";
@@ -28,9 +27,6 @@ export default function HomeScreen({ navigation }) {
         <ListSection selectedBrand={selectedBrand} inputValue={inputValue} navigation={navigation} />
         <NewsSection selectedBrand={selectedBrand} />
       </ScrollView>
-      <View
-        style={{ width: "100%", backgroundColor: "#000000", height: 106 }}
-      />
     </SafeAreaView>
   );
 }

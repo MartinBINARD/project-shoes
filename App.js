@@ -1,5 +1,7 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import StackNavigator from "./navigators/StackNavigators";
+import BottomTabsNavigator from "./navigators/BottomTabsNavigator";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 
 export default function App() {
@@ -11,6 +13,11 @@ export default function App() {
   });
 
   return fontsLoaded ? (
-    <StackNavigator />
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <BottomTabsNavigator />
+      </NavigationContainer>
+    </SafeAreaProvider>
+    
   ) : null;
 }
