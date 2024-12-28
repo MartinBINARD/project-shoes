@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import MainStackNavigators from "./navigators/MainStackNavigator";
 
