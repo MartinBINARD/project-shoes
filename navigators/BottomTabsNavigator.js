@@ -32,6 +32,7 @@ export default function BottomTabsNavigator() {
       backgroundColor: colors.WHITE
     }}>
       <Tabs.Navigator screenOptions={{
+        unmountOnBlur: true,
         tabBarStyle: {
           height: originalHeight,
           backgroundColor: colors.LIGHT,

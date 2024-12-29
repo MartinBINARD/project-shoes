@@ -2,70 +2,52 @@ import { MaterialIcons } from "@expo/vector-icons";
 import {
   DrawerContentScrollView,
   DrawerItem,
-  DrawerItemList,
-  createDrawerNavigator,
+  createDrawerNavigator
 } from "@react-navigation/drawer";
 import { Image, StyleSheet, View } from "react-native";
+import CartIcon from "../assets/images/navigation/cart.svg";
+import FavoriteIcon from "../assets/images/navigation/favorite.svg";
 import HomeIcon from "../assets/images/navigation/home.svg";
+import NotificationsIcon from "../assets/images/navigation/notifications.svg";
 import ProfileIcon from "../assets/images/navigation/user.svg";
 import { colors } from "../constants/colors";
 import { radius } from "../constants/radius";
 import { SMALL_ICON_SIZE } from "../constants/sizes";
 import { spaces } from "../constants/spaces";
-import Profile from "../screens/profile";
 import TextBoldXL from "../ui-components/texts/TextBoldXL";
 import BottomTabsNavigator from "./BottomTabsNavigator";
 
 const Drawer = createDrawerNavigator();
+
+const routes = [
+  { name: "HomeStack", label: "Accueil", icon: HomeIcon, index: 0 },
+  { name: "Favorite", label: "Favoris", icon: FavoriteIcon, index: 1 },
+  { name: "Cart", label: "Panier", icon: CartIcon, index: 2 },
+  { name: "Notifications", label: "Notifications", icon: NotificationsIcon, index: 3 },
+  { name: "Profile", label: "Profil", icon: ProfileIcon, index: 4 },
+];
 
 export default function MyDrawer() {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
-        drawerActiveTintColor: colors.WHITE,
-        drawerInactiveTintColor: colors.GREY,
-        drawerActiveBackgroundColor: "transparent",
         drawerStyle: {
           backgroundColor: colors.DARK,
         },
         overlayColor: colors.DARK,
-        drawerLabelStyle: styles.label,
       }}
     >
       <Drawer.Screen
         component={BottomTabsNavigator}
         name="BottomTabs"
-        options={{
-          title: "Accueil",
-          drawerIcon: ({ color }) => (
-          <HomeIcon
-              width={SMALL_ICON_SIZE}
-              height={SMALL_ICON_SIZE}
-              color={color}
-          />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        component={Profile}
-        name="Profile"
-        options={{
-          title: "Profil",
-          drawerIcon: ({ color }) => (
-          <ProfileIcon
-              width={SMALL_ICON_SIZE}
-              height={SMALL_ICON_SIZE}
-              color={color}
-          />
-          ),
-        }}
       />
     </Drawer.Navigator>
   );
 }
 
 function CustomDrawerContent(props) {
+  const activeIndex = props.state.routes[0].state?.index || 0;
 
   return (
     <DrawerContentScrollView {...props}>
@@ -81,7 +63,21 @@ function CustomDrawerContent(props) {
           John Doe
         </TextBoldXL>
       </View>
-      <DrawerItemList {...props} />
+      {/* <DrawerItemList {...props} /> */}
+      {routes.map( route => (
+        <DrawerItem
+          key={route.name}
+          label={route.label} 
+          icon={() => (
+            <route.icon 
+              width={SMALL_ICON_SIZE} 
+              height={SMALL_ICON_SIZE}
+              color={ activeIndex === route.index ? colors.WHITE : colors.GREY }
+            />)}
+          onPress={() => props.navigation.navigate(route.name)}
+          labelStyle={[styles.label, { color: activeIndex === route.index ? colors.WHITE : colors.GREY }]}
+        />
+        ))}
       <DrawerItem
         label="Déconnexion"
         onPress={() => console.log("logout")}
