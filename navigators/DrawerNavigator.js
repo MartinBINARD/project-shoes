@@ -36,6 +36,7 @@ export default function MyDrawer() {
           backgroundColor: colors.DARK,
         },
         overlayColor: colors.DARK,
+        headerShown: false,
       }}
     >
       <Drawer.Screen

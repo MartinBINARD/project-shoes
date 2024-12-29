@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native";
+import { IS_LARGE_SCREEN } from "../../../constants/sizes";
 import SearchInput from "../../../ui-components/inputs/SearchInput";
 import BrandsList from "./components/BrandList";
 
@@ -28,6 +29,6 @@ const styles = StyleSheet.create({
     flex: 120,
     minHeight: 120,
     justifyContent: "space-evenly",
-    alignItems: "center",
+    alignItems: IS_LARGE_SCREEN ? "center" : "flex-start",
   },
 });

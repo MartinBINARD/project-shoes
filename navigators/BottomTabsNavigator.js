@@ -1,8 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BottomTabsBackground from "../assets/images/navigation/bottomTabsBackground.svg";
 import CartIcon from "../assets/images/navigation/cart.svg";
+import DrawerIcon from "../assets/images/navigation/drawer.svg";
 import FavoriteIcon from "../assets/images/navigation/favorite.svg";
 import HomeIcon from "../assets/images/navigation/home.svg";
 import NotificationsIcon from "../assets/images/navigation/notifications.svg";
@@ -10,6 +11,7 @@ import ProfileIcon from "../assets/images/navigation/user.svg";
 import { colors } from "../constants/colors";
 import { radius } from "../constants/radius";
 import { FOCUSED_ICON_SIZE, IS_LARGE_SCREEN, SCREEN_WIDTH, SMALL_ICON_SIZE } from "../constants/sizes";
+import { spaces } from "../constants/spaces";
 import Cart from "../screens/cart";
 import Favorites from "../screens/favorites";
 import Notfications from "../screens/notifications";
@@ -31,7 +33,7 @@ export default function BottomTabsNavigator() {
       paddingBottom: insets.bottom,
       backgroundColor: colors.WHITE
     }}>
-      <Tabs.Navigator screenOptions={{
+      <Tabs.Navigator screenOptions={({ navigation }) => ({
         unmountOnBlur: true,
         tabBarStyle: {
           height: originalHeight,
@@ -51,8 +53,17 @@ export default function BottomTabsNavigator() {
               viewBox={`0 0 ${originalWidth} ${originalHeight}`} 
             />
           </View>
-        )
-      }}>
+        ),
+        headerTitle: "center",
+        headerLeft: () => (
+          <Pressable 
+            style={styles.drawerIconContainer} 
+            onPress={() => navigation.getParent().openDrawer()}
+          >
+            <DrawerIcon />
+          </Pressable>
+        ),
+      })}>
         <Tabs.Screen 
           component={HomeStackNavigator}
           name="HomeStack"
@@ -127,6 +138,9 @@ export default function BottomTabsNavigator() {
 }
 
 const styles = StyleSheet.create({
+  drawerIconContainer: {
+    marginLeft: spaces.L,
+  },
   cartContainer: {
     width: 60,
     height: 60,
