@@ -54,7 +54,7 @@ export default function BottomTabsNavigator() {
             />
           </View>
         ),
-        headerTitle: "center",
+        headerTitleAlign: "center",
         headerLeft: () => (
           <Pressable 
             style={styles.drawerIconContainer} 

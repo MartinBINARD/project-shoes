@@ -33,7 +33,12 @@ export default function Details({ route, navigation }) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <DetailsImage source={selectedImage} />
-          <DetailsDescription name={data.name} price={data.price} description={data.description} />
+          <DetailsDescription 
+            name={data.name} 
+            price={data.price} 
+            description={data.description}
+            id={route.params.id}
+          />
           <Gallery
             images={images}
             selectedImage={selectedImage}

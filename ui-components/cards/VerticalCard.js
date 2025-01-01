@@ -1,21 +1,34 @@
 import { AntDesign } from "@expo/vector-icons";
 import { Image, Platform, StyleSheet, View } from "react-native";
-import { colors } from "../../constants/colors";
+import { colors, colors as iconColors } from "../../constants/colors";
 import { radius } from "../../constants/radius";
-import { IS_LARGE_SCREEN, SCREEN_WIDTH } from "../../constants/sizes";
+import { IS_LARGE_SCREEN, SCREEN_WIDTH, SMALL_ICON_SIZE } from "../../constants/sizes";
 import { spaces } from "../../constants/spaces";
 import TextBoldL from "../texts/TextBoldL";
 import TextMediumM from "../texts/TextMediumM";
 import TextMediumS from "../texts/TextMediumS";
 import Touchable from "../touchable/Touchable";
 
-export default function VerticalCard({ item, listScreen = false, onPress }) {
+export default function VerticalCard({
+  item,
+  listScreen = false,
+  onPress,
+  isFavorite = false
+}) {
   const colors = item.items.map((elem) => elem.color);
 
   return (
     <View style={styles.container}>
       <Touchable style={styles.touchableContainer} onPress={onPress}>
         <View style={styles.touchableContainer}>
+          {isFavorite ? (
+            <AntDesign 
+              name="star"
+              size={SMALL_ICON_SIZE}
+              color={iconColors.BLUE}
+              style={styles.favoriteIcon}
+            />
+          ) : null }
           <View style={styles.imageContainer}>
             <Image source={item.items[0].image} style={styles.image} />
           </View>
@@ -68,6 +81,11 @@ const styles = StyleSheet.create({
     height: "100%",
     padding: spaces.S,
     paddingVertical: 2,
+  },
+  favoriteIcon: {
+    position: "absolute",
+    top: spaces.M,
+    left: spaces.M
   },
   imageContainer: {
     flex: 1,
