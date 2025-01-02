@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Image, Pressable, StyleSheet, View } from "react-native";
+import { Image, Platform, Pressable, StyleSheet, View } from "react-native";
 import { colors } from "../../../constants/colors";
 import { radius } from "../../../constants/radius";
 import { ICON_SIZE } from "../../../constants/sizes";
@@ -8,9 +8,9 @@ import TextBoldL from "../../../ui-components/texts/TextBoldL";
 import TextBoldM from "../../../ui-components/texts/TextBoldM";
 import TextBoldXL from "../../../ui-components/texts/TextBoldXL";
 
-export default function ListItem ({ item }) {
+export default function ListItem({ item }) {
   return (
-    <View style={StyleSheet.container}>
+    <View style={styles.container}>
       <View style={styles.leftContainer}>
         <View style={styles.imageContainer}>
           <Image source={item.image} style={styles.image} />
@@ -19,12 +19,19 @@ export default function ListItem ({ item }) {
           <TextBoldL>{item.name}</TextBoldL>
           <TextBoldL>{item.price} €</TextBoldL>
           <View style={styles.quantityContainer}>
-            <Pressable style={[styles.operationSignContainer, styles.substractSignContainer]}>
-              <TextBoldXL>-</TextBoldXL>
+            <Pressable
+              style={[
+                styles.operationSignContainer,
+                styles.substractSignContainer,
+              ]}
+            >
+              <TextBoldXL style={styles.minusText}>-</TextBoldXL>
             </Pressable>
             <TextBoldM style={styles.quantityText}>{item.quantity}</TextBoldM>
-            <Pressable style={[styles.operationSignContainer, styles.addSignContainer]}>
-              <TextBoldXL>+</TextBoldXL>
+            <Pressable
+              style={[styles.operationSignContainer, styles.addSignContainer]}
+            >
+              <TextBoldXL style={styles.plusText}>+</TextBoldXL>
             </Pressable>
           </View>
         </View>
@@ -32,20 +39,25 @@ export default function ListItem ({ item }) {
 
       <View style={[styles.rightContainer, styles.columnContainer]}>
         <TextBoldL>{item.size}</TextBoldL>
-        <Feather name="trash-2" size={ICON_SIZE} color={colors.GREY} suppressHighlighting={true} />
+        <Feather
+          name="trash-2"
+          size={ICON_SIZE}
+          color={colors.GREY}
+          suppressHighlighting={true}
+        />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container : {
+  container: {
     flexDirection: "row",
     width: "100%",
     height: 140,
     justifyContent: "space-between",
     paddingVertical: spaces.XS,
-    paddingHorizontal: spaces.L
+    paddingHorizontal: spaces.L,
   },
   leftContainer: {
     flexDirection: "row",
@@ -55,7 +67,7 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: colors.WHITE,
     borderRadius: radius.REGULAR,
-    marginRight: spaces.L
+    marginRight: spaces.L,
   },
   image: {
     width: 120,
@@ -63,34 +75,40 @@ const styles = StyleSheet.create({
     transform: [
       { rotate: "-20deg" },
       { translateX: -spaces.S },
-      { translateY: -spaces.S }
-    ]
+      { translateY: -spaces.S },
+    ],
   },
   columnContainer: {
     justifyContent: "space-between",
-    paddingVertical: spaces.M
+    paddingVertical: spaces.M,
   },
   quantityContainer: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   operationSignContainer: {
     width: spaces.XL,
     height: spaces.XL,
     borderRadius: radius.FULL,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   substractSignContainer: {
-    backgroundColor: colors.WHITE
+    backgroundColor: colors.WHITE,
+  },
+  minusText: {
+    flex: Platform.select({ android: 1 }),
   },
   addSignContainer: {
-    backgroundColor: colors.BLUE
+    backgroundColor: colors.BLUE,
+  },
+  plusText: {
+    color: colors.WHITE,
   },
   quantityText: {
     marginHorizontal: spaces.M,
   },
   rightContainer: {
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
