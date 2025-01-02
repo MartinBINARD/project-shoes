@@ -22,7 +22,7 @@ const Drawer = createDrawerNavigator();
 const routes = [
   { name: "HomeStack", label: "Accueil", icon: HomeIcon, index: 0 },
   { name: "Favorite", label: "Favoris", icon: FavoriteIcon, index: 1 },
-  { name: "Cart", label: "Panier", icon: CartIcon, index: 2 },
+  { name: "MainCart", label: "Panier", icon: CartIcon, index: 2 },
   { name: "Notifications", label: "Notifications", icon: NotificationsIcon, index: 3 },
   { name: "Profile", label: "Profil", icon: ProfileIcon, index: 4 },
 ];
@@ -75,7 +75,13 @@ function CustomDrawerContent(props) {
               height={SMALL_ICON_SIZE}
               color={ activeIndex === route.index ? colors.WHITE : colors.GREY }
             />)}
-          onPress={() => props.navigation.navigate(route.name)}
+          onPress={() => {
+            if (route.name === "MainCart") {
+              props.navigation.navigate(route.name)
+            } else {
+              props.navigation.navigate("BottomTabs", { screen: route.name })
+            }
+          }}
           labelStyle={[styles.label, { color: activeIndex === route.index ? colors.WHITE : colors.GREY }]}
         />
         ))}

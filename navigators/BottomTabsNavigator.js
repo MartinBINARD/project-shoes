@@ -92,19 +92,22 @@ export default function BottomTabsNavigator() {
           }}
         />
         <Tabs.Screen
-          component={Cart} 
-          name="Panier"
-          options={{
+          component={Cart}
+          name="Cart"
+          options={({ navigation }) => ({
             tabBarIcon: ({ color, focused }) => (
-              <View style={[styles.cartContainer, focused ? styles.activeCart : styles.inactiveCart]}>
+              <Pressable
+                style={[styles.cartContainer, focused ? styles.activeCart : styles.inactiveCart]}
+                onPress={() => navigation.navigate("MainCart")}
+              >
                 <CartIcon
                   width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
                   height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
                   color={focused ? colors.WHITE : color}
                 />
-              </View>
+              </Pressable>
             )
-          }}
+          })}
         />
         <Tabs.Screen 
           component={Notfications} 

@@ -28,7 +28,7 @@ export default function Cart() {
       <FlatList
         data={shoes}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(id) => id}
+        keyExtractor={({ id }) => id}
         renderItem={({item}) => <ListItem item={item} />}
         style={styles.listContainer}
         ItemSeparatorComponent={<ListItemSeparator height={spaces.L} />}

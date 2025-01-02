@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Pressable } from "react-native";
 import { colors } from "../constants/colors";
+import Cart from "../screens/cart";
 import Details from "../screens/details";
 import DrawerNavigator from "./DrawerNavigator";
 
@@ -25,6 +26,19 @@ export default function MainStackNavigators() {
         component={Details} 
         name="Details"
         options={({ navigation }) => ({
+          headerLeft: () => (
+            <Pressable onPress={() => navigation.goBack()}>
+              <Ionicons name="chevron-back" size={24} color={colors.DARK} />
+            </Pressable>
+          ),
+        })}
+      />
+      <Stack.Screen
+        component={Cart} 
+        name="MainCart"
+        options={({ navigation }) => ({
+          animation: "slide_from_bottom",
+          title: "Panier",
           headerLeft: () => (
             <Pressable onPress={() => navigation.goBack()}>
               <Ionicons name="chevron-back" size={24} color={colors.DARK} />
