@@ -4,7 +4,8 @@ import {
   DrawerItem,
   createDrawerNavigator
 } from "@react-navigation/drawer";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import CartIcon from "../assets/images/navigation/cart.svg";
 import FavoriteIcon from "../assets/images/navigation/favorite.svg";
 import HomeIcon from "../assets/images/navigation/home.svg";
@@ -47,8 +48,36 @@ export default function MyDrawer() {
   );
 }
 
+const Label = ({ shoesInCartCount, label, activeIndex, index }) => {
+  return shoesInCartCount && label === "Panier" ? (
+    <View style={styles.cartView}>
+      <Text
+        style={[
+          styles.label,
+          { color: colors.BLUE }
+          ]}
+      >
+        {label}
+      </Text>
+      <View style={styles.activeCartContainer}>
+        <Text style={{ color : colors.WHITE }}>{shoesInCartCount}</Text>
+      </View>
+    </View>
+  ) : (
+    <Text
+        style={[
+          styles.label,
+          { color: activeIndex === index ? colors.WHITE : colors.GREY }
+          ]}
+      >
+      {label}
+    </Text>
+  );
+};
+
 function CustomDrawerContent(props) {
   const activeIndex = props.state.routes[0].state?.index || 0;
+  const shoesInCartCount = useSelector((state) => state.cart.shoes.length);
 
   return (
     <DrawerContentScrollView {...props}>
@@ -68,12 +97,20 @@ function CustomDrawerContent(props) {
       {routes.map( route => (
         <DrawerItem
           key={route.name}
-          label={route.label} 
+          label={() => (
+            <Label
+              label={route.label}
+              activeIndex={activeIndex} index={route.index}
+              shoesInCartCount={shoesInCartCount}
+            />
+          )} 
           icon={() => (
             <route.icon 
               width={SMALL_ICON_SIZE} 
               height={SMALL_ICON_SIZE}
-              color={ activeIndex === route.index ? colors.WHITE : colors.GREY }
+              color={ shoesInCartCount && route.label === "Panier"
+                ? colors.BLUE
+                : activeIndex === route.index ? colors.WHITE : colors.GREY }
             />)}
           onPress={() => {
             if (route.name === "MainCart") {
@@ -126,4 +163,16 @@ const styles = StyleSheet.create({
     paddingTop: spaces.XL,
     marginTop: spaces.XL,
   },
+  cartView: {
+    flexDirection: "row"
+  },
+  activeCartContainer: {
+    marginLeft: spaces.M,
+    width: SMALL_ICON_SIZE,
+    height: SMALL_ICON_SIZE,
+    backgroundColor: colors.BLUE,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: radius.FULL
+  }
 });

@@ -1,6 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Pressable, StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Platform, Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 import BottomTabsBackground from "../assets/images/navigation/bottomTabsBackground.svg";
 import CartIcon from "../assets/images/navigation/cart.svg";
 import DrawerIcon from "../assets/images/navigation/drawer.svg";
@@ -25,7 +27,9 @@ const originalHeight = IS_LARGE_SCREEN ? 212 : 106;
 const aspectRatio = originalWidth / originalHeight;
 
 export default function BottomTabsNavigator() {
+  const badgeCount = useSelector((state) => state.cart.shoes.length);
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   return(
     <View style={{
@@ -94,16 +98,28 @@ export default function BottomTabsNavigator() {
         <Tabs.Screen
           component={Cart}
           name="Cart"
+          listeners={{
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate("MainCart");
+            }
+          }}
           options={({ navigation }) => ({
-            tabBarIcon: ({ color, focused }) => (
+            tabBarBadge: badgeCount ? badgeCount : undefined,
+            tabBarBadgeStyle: {
+              backgroundColor: colors.LIGHT,
+              colors: colors.BLUE,
+              marginTop: Platform.select({ ios: -30, android: 0})
+            },
+            tabBarIcon: ({ color }) => (
               <Pressable
-                style={[styles.cartContainer, focused ? styles.activeCart : styles.inactiveCart]}
+                style={[styles.cartContainer, badgeCount ? styles.activeCart : styles.inactiveCart]}
                 onPress={() => navigation.navigate("MainCart")}
               >
                 <CartIcon
-                  width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                  height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                  color={focused ? colors.WHITE : color}
+                  width={badgeCount ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                  height={badgeCount ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                  color={badgeCount ? colors.WHITE : color}
                 />
               </Pressable>
             )
@@ -111,7 +127,7 @@ export default function BottomTabsNavigator() {
         />
         <Tabs.Screen 
           component={Notfications} 
-          name="Notfications"
+          name="Notifications"
           options={{
             tabBarIcon: ({ color, focused }) => (
               <NotificationsIcon
