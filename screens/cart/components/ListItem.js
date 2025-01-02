@@ -7,8 +7,18 @@ import { spaces } from "../../../constants/spaces";
 import TextBoldL from "../../../ui-components/texts/TextBoldL";
 import TextBoldM from "../../../ui-components/texts/TextBoldM";
 import TextBoldXL from "../../../ui-components/texts/TextBoldXL";
+import { useDispatch } from 'react-redux';
+import { decreaseQuantity, increaseQuantity, removeShoesFromCart } from '../../../store/slices/cartSlices';
 
 export default function ListItem({ item }) {
+  const dispatch = useDispatch();
+  
+  const decreaseShoesQuantity = () => dispatch(decreaseQuantity({ id: item.id }));
+
+  const increaseShoesQuantity = () => dispatch(increaseQuantity({ id: item.id }));
+
+  const removeShoes = () => dispatch(removeShoesFromCart({ id: item.id }));
+
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
@@ -24,12 +34,14 @@ export default function ListItem({ item }) {
                 styles.operationSignContainer,
                 styles.substractSignContainer,
               ]}
+              onPress={decreaseShoesQuantity}
             >
               <TextBoldXL style={styles.minusText}>-</TextBoldXL>
             </Pressable>
             <TextBoldM style={styles.quantityText}>{item.quantity}</TextBoldM>
             <Pressable
               style={[styles.operationSignContainer, styles.addSignContainer]}
+              onPress={increaseShoesQuantity}
             >
               <TextBoldXL style={styles.plusText}>+</TextBoldXL>
             </Pressable>
@@ -44,6 +56,7 @@ export default function ListItem({ item }) {
           size={ICON_SIZE}
           color={colors.GREY}
           suppressHighlighting={true}
+          onPress={removeShoes}
         />
       </View>
     </View>

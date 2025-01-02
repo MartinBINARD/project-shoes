@@ -93,7 +93,7 @@ export default function BottomTabsNavigator() {
         />
         <Tabs.Screen
           component={Cart} 
-          name="Cart"
+          name="Panier"
           options={{
             tabBarIcon: ({ color, focused }) => (
               <View style={[styles.cartContainer, focused ? styles.activeCart : styles.inactiveCart]}>
