@@ -29,7 +29,7 @@ export default function Details({ route, navigation }) {
   const addToCart = () => {
     dispatch(addShoesToCart({
       id: data.id + Date.now(),
-      name: brand.charAt(0).toUpperCase + brand.slice(1) + " " + data.name,
+      name: brand.charAt(0).toUpperCase() + brand.slice(1) + " " + data.name,
       image: selectedImage,
       size: selectedSize,
       price: data.price,
