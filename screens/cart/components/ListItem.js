@@ -1,14 +1,14 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Image, Platform, Pressable, StyleSheet, View } from "react-native";
+import { useDispatch } from 'react-redux';
 import { colors } from "../../../constants/colors";
 import { radius } from "../../../constants/radius";
 import { ICON_SIZE } from "../../../constants/sizes";
 import { spaces } from "../../../constants/spaces";
+import { decreaseQuantity, increaseQuantity, removeShoesFromCart } from '../../../store/slices/cartSlices';
 import TextBoldL from "../../../ui-components/texts/TextBoldL";
 import TextBoldM from "../../../ui-components/texts/TextBoldM";
 import TextBoldXL from "../../../ui-components/texts/TextBoldXL";
-import { useDispatch } from 'react-redux';
-import { decreaseQuantity, increaseQuantity, removeShoesFromCart } from '../../../store/slices/cartSlices';
 
 export default function ListItem({ item }) {
   const dispatch = useDispatch();
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spaces.L,
   },
   leftContainer: {
+    flex: 0.5,
     flexDirection: "row",
   },
   imageContainer: {

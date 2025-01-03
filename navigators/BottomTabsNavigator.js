@@ -16,7 +16,7 @@ import { FOCUSED_ICON_SIZE, IS_LARGE_SCREEN, SCREEN_WIDTH, SMALL_ICON_SIZE } fro
 import { spaces } from "../constants/spaces";
 import Cart from "../screens/cart";
 import Favorites from "../screens/favorites";
-import Notfications from "../screens/notifications";
+import Notifications from "../screens/notifications";
 import Profile from "../screens/profile";
 import HomeStackNavigator from "./HomeStackNavigators";
 
@@ -126,7 +126,7 @@ export default function BottomTabsNavigator() {
           })}
         />
         <Tabs.Screen 
-          component={Notfications} 
+          component={Notifications} 
           name="Notifications"
           options={{
             tabBarIcon: ({ color, focused }) => (

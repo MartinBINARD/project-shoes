@@ -7,7 +7,7 @@ import ListItem from "./components/Listitem";
 
 const ids = ["nik43p", "nik47p", "nik64p" ];
 
-export default function Notfications({ navigation }) {
+export default function Notifications({ navigation }) {
   const data = ids.map((id) => 
     shoes
       .find((item) => item.stock.find((elem) => elem.id === id))
