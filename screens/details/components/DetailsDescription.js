@@ -1,25 +1,33 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { StyleSheet, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { colors } from '../../../constants/colors';
 import { ICON_SIZE } from '../../../constants/sizes';
 import { spaces } from '../../../constants/spaces';
-import { addFavorite, removeFavorite } from '../../../store/slices/favoritesSlice';
+import { useAddFavoriteMutation, useGetAllFavoritesQuery, useRemoveFavoriteMutation } from '../../../store/api/favoritesApi';
 import TextBoldL from '../../../ui-components/texts/TextBoldL';
 import TextBoldXL from '../../../ui-components/texts/TextBoldXL';
 import TextMediumM from '../../../ui-components/texts/TextMediumM';
 
 export default function DetailsDescription({ name, price, description, id }) {
-    const dispatch = useDispatch();
-    const favoritesShoesIds = useSelector((state) => state.favorites.favoritesShoesIds);
-    const isFavorite = favoritesShoesIds.includes(id);
-    const iconName = isFavorite ? 'star' : 'staro';
+    // const dispatch = useDispatch();
+    // const favoritesShoesIds = useSelector((state) => state.favorites.favoritesShoesIds);
+    // const isFavorite = favoritesShoesIds.includes(id);
+    const [addToFavorite] = useAddFavoriteMutation();
+    const [removeFromFavorite] = useRemoveFavoriteMutation();
+    const { data: favorite } = useGetAllFavoritesQuery(undefined, {
+        selectFromResult: ({ data }) => ({
+            data: data?.find((elem) => elem.shoesId === id),
+        }),
+    });
+    const iconName = favorite ? 'star' : 'staro';
 
     const toggleFavorite = () => {
-        if (isFavorite) {
-            dispatch(removeFavorite(id));
+        if (favorite) {
+            // dispatch(removeFavorite(id));
+            removeFromFavorite({ id: favorite.id });
         } else {
-            dispatch(addFavorite(id));
+            // dispatch(addFavorite(id));
+            addToFavorite({ shoesId: id });
         }
     };
 

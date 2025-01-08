@@ -1,17 +1,19 @@
-import { FlatList, StyleSheet, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { colors } from '../../constants/colors';
 import { SCREEN_HEIGHT } from '../../constants/sizes';
 import { spaces } from '../../constants/spaces';
 import { shoes } from '../../data/shoes';
+import { useGetAllFavoritesQuery } from '../../store/api/favoritesApi';
 import VerticalCard from '../../ui-components/cards/VerticalCard';
 import ListItemSeparator from '../../ui-components/separators/ListItemSeparator';
 import TextBoldL from '../../ui-components/texts/TextBoldL';
 
 export default function Favorites({ navigation }) {
-    const favoritesShoesIds = useSelector((state) => state.favorites.favoritesShoesIds);
-    const data = favoritesShoesIds.map((id) =>
-        shoes.find((item) => item.stock.find((elem) => elem.id === id)).stock.find((el) => el.id === id),
+    // const favoritesShoesIds = useSelector((state) => state.favorites.favoritesShoesIds);
+    const { data: favoritesShoes, isLoading } = useGetAllFavoritesQuery();
+
+    const data = favoritesShoes?.map((favorite) =>
+        shoes.find((item) => item.stock.find((elem) => elem.id === favorite.shoesId)).stock.find((el) => el.id === favorite.shoesId),
     );
 
     const navigateToDetails = (id) => {
@@ -24,7 +26,15 @@ export default function Favorites({ navigation }) {
         </View>
     );
 
-    if (favoritesShoesIds.length === 0) {
+    if (isLoading) {
+        return (
+            <View style={styles.emptyListContainer}>
+                <ActivityIndicator size="large" color={colors.DARK} />
+            </View>
+        );
+    }
+
+    if (favoritesShoes?.length === 0) {
         return (
             <View style={styles.emptyListContainer}>
                 <TextBoldL>Vous n'avez pas encore de favoris</TextBoldL>

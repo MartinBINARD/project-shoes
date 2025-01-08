@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const favoritesApi = createApi({
     reducerPath: 'favoritesApi',
-    baseQuery: fetchBaseQuery({ baseUrl: EXPO_PUBLIC_API_URL }),
+    baseQuery: fetchBaseQuery({ baseUrl: process.env.EXPO_PUBLIC_API_URL }),
     tagTypes: ['Favorites'],
     endpoints: (build) => ({
         getAllFavorites: build.query({
@@ -17,12 +17,11 @@ export const favoritesApi = createApi({
                     };
                     favorites.push(favorite);
                 }
-
                 return favorites;
             },
         }),
         addFavorite: build.mutation({
-            invalidatesTags: 'Favorites',
+            invalidatesTags: ['Favorites'],
             query: (shoesId) => ({
                 url: 'favorites.json',
                 method: 'POST',
@@ -30,7 +29,7 @@ export const favoritesApi = createApi({
             }),
         }),
         removeFavorite: build.mutation({
-            invalidatesTags: 'Favorites',
+            invalidatesTags: ['Favorites'],
             query: ({ id }) => ({
                 url: `favorites/${id}.json`,
                 method: 'DELETE',
