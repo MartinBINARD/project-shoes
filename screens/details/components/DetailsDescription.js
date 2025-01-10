@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { colors } from '../../../constants/colors';
 import { ICON_SIZE } from '../../../constants/sizes';
 import { spaces } from '../../../constants/spaces';
-import { useAddFavoriteMutation, useGetAllFavoritesQuery, useRemoveFavoriteMutation } from '../../../store/api/favoritesApi';
+import { useAddFavoriteMutation, useGetAllFavoritesQuery, useUpdateFavoritesMutation } from '../../../store/api/favoritesApi';
 import TextBoldL from '../../../ui-components/texts/TextBoldL';
 import TextBoldXL from '../../../ui-components/texts/TextBoldXL';
 import TextMediumM from '../../../ui-components/texts/TextMediumM';
@@ -13,10 +13,11 @@ export default function DetailsDescription({ name, price, description, id }) {
     // const favoritesShoesIds = useSelector((state) => state.favorites.favoritesShoesIds);
     // const isFavorite = favoritesShoesIds.includes(id);
     const [addToFavorite] = useAddFavoriteMutation();
-    const [removeFromFavorite] = useRemoveFavoriteMutation();
-    const { data: favorite } = useGetAllFavoritesQuery(undefined, {
+    const [updateFavorites] = useUpdateFavoritesMutation();
+    const { data: favorite, favorites } = useGetAllFavoritesQuery(undefined, {
         selectFromResult: ({ data }) => ({
-            data: data?.find((elem) => elem.shoesId === id),
+            data: data?.shoesIds?.find((el) => el === id),
+            favorites: data,
         }),
     });
     const iconName = favorite ? 'star' : 'staro';
@@ -24,10 +25,18 @@ export default function DetailsDescription({ name, price, description, id }) {
     const toggleFavorite = () => {
         if (favorite) {
             // dispatch(removeFavorite(id));
-            removeFromFavorite({ id: favorite.id });
-        } else {
+            updateFavorites({
+                id: favorites.id,
+                shoesIds: favorites.shoesIds.filter((el) => el !== id),
+            });
+        } else if (favorites.id) {
             // dispatch(addFavorite(id));
-            addToFavorite({ shoesId: id });
+            updateFavorites({
+                id: favorites.id,
+                shoesIds: [...favorites.shoesIds, id],
+            });
+        } else {
+            addToFavorite(id);
         }
     };
 

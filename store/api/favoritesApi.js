@@ -9,13 +9,10 @@ export const favoritesApi = createApi({
             providesTags: ['Favorites'],
             query: () => 'favorites.json',
             transformResponse: (response) => {
-                const favorites = [];
+                const favorites = {};
                 for (const key in response) {
-                    const favorite = {
-                        id: key,
-                        ...response[key],
-                    };
-                    favorites.push(favorite);
+                    favorites.id = key;
+                    favorites.shoesIds = [...response[key]];
                 }
                 return favorites;
             },
@@ -25,17 +22,18 @@ export const favoritesApi = createApi({
             query: (shoesId) => ({
                 url: 'favorites.json',
                 method: 'POST',
-                body: shoesId,
+                body: [shoesId],
             }),
         }),
-        removeFavorite: build.mutation({
+        updateFavorites: build.mutation({
             invalidatesTags: ['Favorites'],
-            query: ({ id }) => ({
+            query: ({ id, shoesIds }) => ({
                 url: `favorites/${id}.json`,
-                method: 'DELETE',
+                method: 'PUT',
+                body: shoesIds,
             }),
         }),
     }),
 });
 
-export const { useGetAllFavoritesQuery, useAddFavoriteMutation, useRemoveFavoriteMutation } = favoritesApi;
+export const { useGetAllFavoritesQuery, useAddFavoriteMutation, useUpdateFavoritesMutation } = favoritesApi;
