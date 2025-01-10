@@ -1,25 +1,26 @@
 import { Image, StyleSheet, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { colors } from '../../../constants/colors';
 import { radius } from '../../../constants/radius';
 import { spaces } from '../../../constants/spaces';
-import { addSeenNotifications } from '../../../store/slices/notificationsSlice';
 import TextBoldL from '../../../ui-components/texts/TextBoldL';
 import TextBoldM from '../../../ui-components/texts/TextBoldM';
 import TextMediumM from '../../../ui-components/texts/TextMediumM';
 import TextMediumS from '../../../ui-components/texts/TextMediumS';
 import Touchable from '../../../ui-components/touchable/Touchable';
 
-export default function ListItem({ item, navigateToDetails }) {
-    const dispatch = useDispatch();
-    const seenNotificationsIds = useSelector((state) => state.notifications.seenNotificationsIds);
-    const isSeen = seenNotificationsIds.includes(item.id);
+export default function ListItem({ item, navigateToDetails, isSeen, updateNotif }) {
+    // const dispatch = useDispatch();
+    // const seenNotificationsIds = useSelector((state) => state.notifications.seenNotificationsIds);
+    // const isSeen = seenNotificationsIds.includes(item.id);
 
     const navigate = () => {
         navigateToDetails(item.id);
-        setTimeout(() => {
-            dispatch(addSeenNotifications(item.id));
-        }, 300);
+        if (!isSeen) {
+            setTimeout(() => {
+                // dispatch(addSeenNotifications(item.id));
+                updateNotif(item.id);
+            }, 300);
+        }
     };
 
     return (
