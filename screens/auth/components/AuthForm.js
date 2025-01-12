@@ -8,7 +8,7 @@ import Input from '../../../ui-components/inputs/Input';
 import TextBoldM from '../../../ui-components/texts/TextBoldM';
 import TextMediumM from '../../../ui-components/texts/TextMediumM';
 
-export default function AuthForm({ loginScreen, navigate }) {
+export default function AuthForm({ loginScreen, navigate, submitFormHandler, isLoading }) {
     const initialValues = loginScreen
         ? { email: '', password: '' }
         : {
@@ -33,7 +33,7 @@ export default function AuthForm({ loginScreen, navigate }) {
 
     return (
         <View style={styles.formContainer}>
-            <Formik initialValues={initialValues} onSubmit={(values) => console.log(values)} validationSchema={validationSchema}>
+            <Formik initialValues={initialValues} onSubmit={submitFormHandler} validationSchema={validationSchema}>
                 {({ values, handleChange, handleSubmit, errors, touched, handleBlur }) => (
                     <>
                         <Input
@@ -70,7 +70,7 @@ export default function AuthForm({ loginScreen, navigate }) {
                                 type="password"
                             />
                         ) : null}
-                        <CustomButton text="Valider" onPress={handleSubmit} />
+                        <CustomButton text="Valider" onPress={handleSubmit} isLoading={isLoading} />
                     </>
                 )}
             </Formik>
