@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Pressable } from 'react-native';
 import { colors } from '../constants/colors';
+import Login from '../screens/auth/Login';
 import Signup from '../screens/auth/Signup';
 import Cart from '../screens/cart';
 import Details from '../screens/details';
@@ -18,7 +19,14 @@ export default function MainStackNavigators() {
                 headerTitleAlign: 'center',
             })}
         >
-            <Stack.Screen component={Signup} name="Singup" options={{ title: "Formulaire d'inscription" }} />
+            <Stack.Screen
+                component={Login}
+                name="Login"
+                options={{
+                    title: 'Connexion',
+                }}
+            />
+            <Stack.Screen component={Signup} name="Signup" options={{ title: "Formulaire d'inscription" }} />
             <Stack.Screen
                 component={DrawerNavigator}
                 name="DrawerNavigator"
