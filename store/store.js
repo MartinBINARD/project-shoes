@@ -5,12 +5,14 @@ import { userApi } from './api/userApi';
 import cartReducer from './slices/cartSlices';
 import favoriteReducer from './slices/favoritesSlice';
 import notficationsReducer from './slices/notificationsSlice';
+import userReducer from './slices/userSlice';
 
 export const store = configureStore({
     reducer: {
         favorites: favoriteReducer,
         notifications: notficationsReducer,
         cart: cartReducer,
+        user: userReducer,
         [favoritesApi.reducerPath]: favoritesApi.reducer,
         [notificationsApi.reducerPath]: notificationsApi.reducer,
         [userApi.reducerPath]: userApi.reducer,

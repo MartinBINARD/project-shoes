@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLazyGetUserQuery } from '../../store/api/userApi';
+import { setUserId } from '../../store/slices/userSlice';
 import AuthForm from './components/AuthForm';
 
 export default function Login({ navigation }) {
+    const dispatch = useDispatch();
     const [getUser, { data, isFetching }] = useLazyGetUserQuery();
     const navigateToSignup = () => {
         navigation.replace('Signup');
@@ -11,10 +14,9 @@ export default function Login({ navigation }) {
         getUser({ email: values.email });
     };
 
-    console.log(data);
-
     useEffect(() => {
         if (data?.id) {
+            dispatch(setUserId(data.id));
             navigation.replace('DrawerNavigator');
         }
     }, [data]);
