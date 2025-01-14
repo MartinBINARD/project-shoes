@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { favoritesApi } from './api/favoritesApi';
 import { notificationsApi } from './api/notificationsApi';
 import { userApi } from './api/userApi';
-import cartReducer from './slices/cartSlices';
+import cartReducer from './slices/cartSlice';
 import favoriteReducer from './slices/favoritesSlice';
 import notficationsReducer from './slices/notificationsSlice';
 import userReducer from './slices/userSlice';

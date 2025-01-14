@@ -5,6 +5,7 @@ import { colors } from '../../constants/colors';
 import { radius } from '../../constants/radius';
 import { IS_LARGE_SCREEN } from '../../constants/sizes';
 import { spaces } from '../../constants/spaces';
+import { useGetUserByIdQuery, useUpdateUserMutation } from '../../store/api/userApi';
 import CustomButton from '../../ui-components/buttons/CustomButton';
 import ListItemSeparator from '../../ui-components/separators/ListItemSeparator';
 import TextBoldL from '../../ui-components/texts/TextBoldL';
@@ -12,10 +13,44 @@ import TextBoldXL from '../../ui-components/texts/TextBoldXL';
 import ListItem from './components/ListItem';
 
 export default function Cart() {
-    const state = useSelector((state) => state.cart);
-    const { shoes, totalAmount } = state;
+    const userId = useSelector((state) => state.user.id);
+    const { data: user, isLoading } = useGetUserByIdQuery(userId);
+    const [updateUser] = useUpdateUserMutation();
+    // const state = useSelector((state) => state.cart);
+    // const { shoes, totalAmount } = state;
 
-    if (shoes.length === 0) {
+    const totalAmount = user?.cart?.totalAmount;
+
+    const removeShoesFromCart = (id) => {
+        const shoesToRemove = user.cart.shoes.find((el) => el.id === id);
+        const newCart = {
+            shoes: user.cart.shoes.filter((el) => el.id !== id),
+            totalAmount: user.cart.totalAmount - shoesToRemove.price * shoesToRemove.quantity,
+        };
+        updateUser({
+            id: userId,
+            cart: newCart,
+        });
+    };
+
+    const updateQuantity = (id, increase) => {
+        const newCart = JSON.parse(JSON.stringify(user.cart));
+        const index = newCart.shoes.indexOf(newCart.shoes.find((el) => el.id === id));
+
+        if (increase) {
+            newCart.shoes[index].quantity += 1;
+            newCart.totalAmount += newCart.shoes[index].price;
+        } else {
+            newCart.shoes[index].quantity -= 1;
+            newCart.totalAmount -= newCart.shoes[index].price;
+        }
+        updateUser({
+            id: userId,
+            cart: newCart,
+        });
+    };
+
+    if (!user?.cart?.shoes?.length) {
         return (
             <View style={styles.listEmptyContainer}>
                 <TextBoldL>Votre panier est vide</TextBoldL>
@@ -26,10 +61,12 @@ export default function Cart() {
     return (
         <View style={styles.container}>
             <FlatList
-                data={shoes}
+                data={user?.cart?.shoes}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={({ id }) => id}
-                renderItem={({ item }) => <ListItem item={item} />}
+                renderItem={({ item }) => (
+                    <ListItem item={item} removeShoesFromCart={removeShoesFromCart} updateQuantity={updateQuantity} />
+                )}
                 style={styles.listContainer}
                 ItemSeparatorComponent={<ListItemSeparator height={spaces.L} />}
                 numColumns={IS_LARGE_SCREEN ? 2 : 1}

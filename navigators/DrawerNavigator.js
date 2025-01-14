@@ -11,6 +11,7 @@ import { colors } from '../constants/colors';
 import { radius } from '../constants/radius';
 import { SMALL_ICON_SIZE } from '../constants/sizes';
 import { spaces } from '../constants/spaces';
+import { useGetUserByIdQuery } from '../store/api/userApi';
 import TextBoldXL from '../ui-components/texts/TextBoldXL';
 import BottomTabsNavigator from './BottomTabsNavigator';
 
@@ -55,8 +56,10 @@ const Label = ({ shoesInCartCount, label, activeIndex, index }) => {
 };
 
 function CustomDrawerContent(props) {
+    const userId = useSelector((state) => state.user.id);
+    const { data: user } = useGetUserByIdQuery(userId);
     const activeIndex = props.state.routes[0].state?.index || 0;
-    const shoesInCartCount = useSelector((state) => state.cart.shoes.length);
+    const shoesInCartCount = user?.cart?.shoes?.length;
 
     return (
         <DrawerContentScrollView {...props}>
