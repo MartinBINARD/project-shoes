@@ -1,42 +1,48 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { colors } from '../../../constants/colors';
 import { ICON_SIZE } from '../../../constants/sizes';
 import { spaces } from '../../../constants/spaces';
-import { useAddFavoriteMutation, useGetAllFavoritesQuery, useUpdateFavoritesMutation } from '../../../store/api/favoritesApi';
+import { useGetUserByIdQuery, useUpdateUserMutation } from '../../../store/api/userApi';
 import TextBoldL from '../../../ui-components/texts/TextBoldL';
 import TextBoldXL from '../../../ui-components/texts/TextBoldXL';
 import TextMediumM from '../../../ui-components/texts/TextMediumM';
 
 export default function DetailsDescription({ name, price, description, id }) {
-    // const dispatch = useDispatch();
-    // const favoritesShoesIds = useSelector((state) => state.favorites.favoritesShoesIds);
-    // const isFavorite = favoritesShoesIds.includes(id);
-    const [addToFavorite] = useAddFavoriteMutation();
-    const [updateFavorites] = useUpdateFavoritesMutation();
-    const { data: favorite, favorites } = useGetAllFavoritesQuery(undefined, {
-        selectFromResult: ({ data }) => ({
-            data: data?.shoesIds?.find((el) => el === id),
-            favorites: data,
-        }),
-    });
-    const iconName = favorite ? 'star' : 'staro';
+    // const [addToFavorite] = useAddFavoriteMutation();
+    // const [updateFavorites] = useUpdateFavoritesMutation();
+    // const { data: favorite, favorites } = useGetAllFavoritesQuery(undefined, {
+    //     selectFromResult: ({ data }) => ({
+    //         data: data?.shoesIds?.find((el) => el === id),
+    //         favorites: data,
+    //     }),
+    // });
+    const userId = useSelector((state) => state.user.id);
+    const { data: user } = useGetUserByIdQuery(userId);
+    const [updateUser] = useUpdateUserMutation();
+    const isFavorite = user?.favoritesIds?.includes(id);
+
+    const iconName = isFavorite ? 'star' : 'staro';
 
     const toggleFavorite = () => {
-        if (favorite) {
+        if (isFavorite) {
             // dispatch(removeFavorite(id));
-            updateFavorites({
-                id: favorites.id,
-                shoesIds: favorites.shoesIds.filter((el) => el !== id),
+            updateUser({
+                id: userId,
+                favoritesIds: user.favoritesIds.filter((el) => el !== id),
             });
-        } else if (favorites.id) {
+        } else if (user?.favoritesIds) {
             // dispatch(addFavorite(id));
-            updateFavorites({
-                id: favorites.id,
-                shoesIds: [...favorites.shoesIds, id],
+            updateUser({
+                id: userId,
+                favoritesIds: [...user.favoritesIds, id],
             });
         } else {
-            addToFavorite(id);
+            updateUser({
+                id: userId,
+                favoritesIds: [id],
+            });
         }
     };
 
