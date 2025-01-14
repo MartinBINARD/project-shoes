@@ -1,11 +1,30 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { colors } from '../../constants/colors';
+import { useGetUserByIdQuery, useUpdateUserMutation } from '../../store/api/userApi';
+import ProfileForm from './components/ProfileForm';
 
 export default function Profile() {
-    return (
-        <View style={styles.container}>
-            <Text>Profile</Text>
-        </View>
-    );
+    const userId = useSelector((state) => state.user.id);
+    const { data: user, isLoading } = useGetUserByIdQuery(userId);
+    const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
+
+    const updateUserProfile = (values) => {
+        updateUser({
+            id: userId,
+            ...values,
+        });
+    };
+
+    if (isLoading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color={colors.DARK} />
+            </View>
+        );
+    }
+
+    return <ProfileForm user={user} isLoading={isUpdating} submitFormHandler={updateUserProfile} />;
 }
 
 const styles = StyleSheet.create({

@@ -14,6 +14,11 @@ export default function Input({ label, error, errorText, type, ...inputProps }) 
         inputContainerStyle.push(styles.inputError);
     }
 
+    const inputStyles = [styles.input];
+    if (inputProps.readOnly) {
+        inputStyles.push(styles.readOnlyInput);
+    }
+
     const togglePasswordVisibility = () => {
         setisPasswordVisible((prev) => !prev);
     };
@@ -22,7 +27,7 @@ export default function Input({ label, error, errorText, type, ...inputProps }) 
         <View style={styles.container}>
             <TextBoldL style={styles.label}>{label}</TextBoldL>
             <View style={inputContainerStyle}>
-                <TextInput style={styles.input} secureTextEntry={type === 'password' && !isPassWordVisible} {...inputProps} />
+                <TextInput style={inputStyles} secureTextEntry={type === 'password' && !isPassWordVisible} {...inputProps} />
                 {type === 'password' ? (
                     <Feather
                         name={isPassWordVisible ? 'eye' : 'eye-off'}
@@ -59,6 +64,9 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         fontSize: 16,
+    },
+    readOnlyInput: {
+        color: colors.GREY,
     },
     inputError: {
         borderColor: colors.RED,
