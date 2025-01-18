@@ -1,4 +1,5 @@
 import { Modal, StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { colors } from '../../constants/colors';
 import { radius } from '../../constants/radius';
 import { SCREEN_HEIGHT } from '../../constants/sizes';
@@ -7,10 +8,12 @@ import CustomButton from '../buttons/CustomButton';
 import TextBoldL from '../texts/TextBoldL';
 
 export default function HttpErrorModal({ isModalVisible, closeModal }) {
+    const errorMessage = useSelector((state) => state.error.httpErrorMessage);
+
     return (
         <Modal visible={isModalVisible} animationType="slide" transparent>
             <View style={styles.container}>
-                <TextBoldL style={styles.text}>Une erreur est survenue. Veuillez ré-essayer ultérieurement</TextBoldL>
+                <TextBoldL style={styles.text}>{errorMessage}</TextBoldL>
                 <CustomButton onPress={closeModal} text="OK" />
             </View>
         </Modal>

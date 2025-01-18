@@ -23,14 +23,11 @@ export const userApi = createApi({
             query: (id) => `users/${id}.json`,
         }),
         createUser: builder.mutation({
-            query: (user) => ({
-                url: 'users.json',
-                method: 'POST',
+            query: ({ user, token, id }) => ({
+                url: `users/${id}.json?auth=${token}`,
+                method: 'PUT',
                 body: user,
             }),
-            transformResponse: (response) => {
-                return { id: response.name };
-            },
         }),
         updateUser: builder.mutation({
             query: ({ id, ...patch }) => ({

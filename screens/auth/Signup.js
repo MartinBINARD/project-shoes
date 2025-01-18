@@ -1,31 +1,39 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSignMutation } from '../../store/api/authApi';
+import { useCreateUserMutation } from '../../store/api/userApi';
 import { setToken } from '../../store/slices/authSlice';
+import { setUserId } from '../../store/slices/userSlice';
 import AuthForm from './components/AuthForm';
 
 export default function Signup({ navigation }) {
     const dispatch = useDispatch();
     const [signUp, { data, isLoading, error }] = useSignMutation();
-    // const [createUser, { data, isLoading, isSuccess }] = useCreateUserMutation();
+    const [createUser, { data: user, isCreating }] = useCreateUserMutation();
     const navigateToLogin = () => {
         navigation.replace('Login');
     };
-    const submitFormHandler = (values) => {
-        signUp({
+    const submitFormHandler = async (values) => {
+        const response = await signUp({
             email: values.email,
             password: values.password,
             endpoint: 'signUp',
         });
-        // createUser({ email: values.email });
+        if (!response.error) {
+            createUser({
+                user: { email: values.email },
+                token: response.data.idToken,
+                id: response.data.localId,
+            });
+        }
     };
 
     useEffect(() => {
-        if (data) {
+        if (data && user) {
             dispatch(setToken(data.idToken));
-            // dispatch(setUserId(data.id));
+            dispatch(setUserId(data?.localId));
         }
-    }, [data]);
+    }, [data, user]);
 
-    return <AuthForm navigate={navigateToLogin} submitFormHandler={submitFormHandler} isLoading={isLoading} />;
+    return <AuthForm navigate={navigateToLogin} submitFormHandler={submitFormHandler} isLoading={isLoading || isCreating} />;
 }
