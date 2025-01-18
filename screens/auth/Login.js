@@ -1,24 +1,29 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLazyGetUserQuery } from '../../store/api/userApi';
-import { setUserId } from '../../store/slices/userSlice';
+import { useSignMutation } from '../../store/api/authApi';
+import { setToken } from '../../store/slices/authSlice';
 import AuthForm from './components/AuthForm';
 
 export default function Login({ navigation }) {
     const dispatch = useDispatch();
-    const [getUser, { data, isFetching }] = useLazyGetUserQuery();
+    const [signIn, { data, isLoading, error }] = useSignMutation();
+
     const navigateToSignup = () => {
         navigation.replace('Signup');
     };
     const submitFormHandler = (values) => {
-        getUser({ email: values.email });
+        signIn({
+            email: values.email,
+            password: values.password,
+            endpoint: 'signInWithPassword',
+        });
     };
 
     useEffect(() => {
-        if (data?.id) {
-            dispatch(setUserId(data.id));
-            navigation.replace('DrawerNavigator');
+        if (data) {
+            dispatch(setToken(data.idToken));
         }
     }, [data]);
-    return <AuthForm loginScreen navigate={navigateToSignup} submitFormHandler={submitFormHandler} isLoading={isFetching} />;
+
+    return <AuthForm loginScreen navigate={navigateToSignup} submitFormHandler={submitFormHandler} isLoading={isLoading} />;
 }

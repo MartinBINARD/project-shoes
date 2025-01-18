@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    errorHttp: false,
+    httpError: false,
 };
 
 export const errorSlice = createSlice({
     name: 'error',
     initialState,
     reducers: {
-        setErrorHttp: (state, action) => {
-            state.errorHttp = action.payload;
+        setHttpError: (state, action) => {
+            state.httpError = action.payload;
         },
     },
 });
 
-export const { setErrorHttp } = errorSlice.actions;
+export const { setHttpError } = errorSlice.actions;
 export default errorSlice.reducer;

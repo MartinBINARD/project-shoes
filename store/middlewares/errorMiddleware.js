@@ -1,9 +1,9 @@
 import { isRejectedWithValue } from '@reduxjs/toolkit';
-import { setErrorHttp } from '../slices/errorSlice';
+import { setHttpError } from '../slices/errorSlice';
 
 export const rtkQueryErrorMiddleware = (api) => (next) => (action) => {
     if (isRejectedWithValue(action)) {
-        api.dispatch(setErrorHttp(true));
+        api.dispatch(setHttpError(true));
     }
     return next(action);
 };

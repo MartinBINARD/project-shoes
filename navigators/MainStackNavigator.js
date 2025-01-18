@@ -7,17 +7,20 @@ import Login from '../screens/auth/Login';
 import Signup from '../screens/auth/Signup';
 import Cart from '../screens/cart';
 import Details from '../screens/details';
-import { setErrorHttp } from '../store/slices/errorSlice';
+import { setHttpError } from '../store/slices/errorSlice';
 import HttpErrorModal from '../ui-components/modals/HttpErrorModal';
 import DrawerNavigator from './DrawerNavigator';
 
 const Stack = createNativeStackNavigator();
 
 export default function MainStackNavigators() {
+    const token = useSelector((state) => state.auth.token);
     const httpError = useSelector((state) => state.error.httpError);
+    console.log('httpError', httpError);
+
     const dispatch = useDispatch();
     const closeHttpErrorModal = () => {
-        dispatch(setErrorHttp(false));
+        dispatch(setHttpError(false));
     };
 
     return (
@@ -29,45 +32,52 @@ export default function MainStackNavigators() {
                     headerTitleAlign: 'center',
                 })}
             >
-                <Stack.Screen
-                    component={Login}
-                    name="Login"
-                    options={{
-                        title: 'Connexion',
-                    }}
-                />
-                <Stack.Screen component={Signup} name="Signup" options={{ title: "Formulaire d'inscription" }} />
-                <Stack.Screen
-                    component={DrawerNavigator}
-                    name="DrawerNavigator"
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    component={Details}
-                    name="Details"
-                    options={({ navigation }) => ({
-                        headerLeft: () => (
-                            <Pressable onPress={() => navigation.goBack()}>
-                                <Ionicons name="chevron-back" size={24} color={colors.DARK} />
-                            </Pressable>
-                        ),
-                    })}
-                />
-                <Stack.Screen
-                    component={Cart}
-                    name="MainCart"
-                    options={({ navigation }) => ({
-                        animation: 'slide_from_bottom',
-                        title: 'Panier',
-                        headerLeft: () => (
-                            <Pressable onPress={() => navigation.goBack()}>
-                                <Ionicons name="chevron-back" size={24} color={colors.DARK} />
-                            </Pressable>
-                        ),
-                    })}
-                />
+                {!token ? (
+                    <>
+                        <Stack.Screen
+                            component={Login}
+                            name="Login"
+                            options={{
+                                title: 'Connexion',
+                            }}
+                        />
+                        <Stack.Screen component={Signup} name="Signup" options={{ title: "Formulaire d'inscription" }} />
+                    </>
+                ) : (
+                    <>
+                        <Stack.Screen
+                            component={DrawerNavigator}
+                            name="DrawerNavigator"
+                            options={{
+                                headerShown: false,
+                            }}
+                        />
+                        <Stack.Screen
+                            component={Details}
+                            name="Details"
+                            options={({ navigation }) => ({
+                                headerLeft: () => (
+                                    <Pressable onPress={() => navigation.goBack()}>
+                                        <Ionicons name="chevron-back" size={24} color={colors.DARK} />
+                                    </Pressable>
+                                ),
+                            })}
+                        />
+                        <Stack.Screen
+                            component={Cart}
+                            name="MainCart"
+                            options={({ navigation }) => ({
+                                animation: 'slide_from_bottom',
+                                title: 'Panier',
+                                headerLeft: () => (
+                                    <Pressable onPress={() => navigation.goBack()}>
+                                        <Ionicons name="chevron-back" size={24} color={colors.DARK} />
+                                    </Pressable>
+                                ),
+                            })}
+                        />
+                    </>
+                )}
             </Stack.Navigator>
             <HttpErrorModal isModalVisible={httpError} closeModal={closeHttpErrorModal} />
         </>

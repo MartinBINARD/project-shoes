@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CartIcon from '../assets/images/navigation/cart.svg';
 import FavoriteIcon from '../assets/images/navigation/favorite.svg';
 import HomeIcon from '../assets/images/navigation/home.svg';
@@ -12,6 +12,7 @@ import { radius } from '../constants/radius';
 import { SMALL_ICON_SIZE } from '../constants/sizes';
 import { spaces } from '../constants/spaces';
 import { useGetUserByIdQuery } from '../store/api/userApi';
+import { setToken } from '../store/slices/authSlice';
 import TextBoldXL from '../ui-components/texts/TextBoldXL';
 import BottomTabsNavigator from './BottomTabsNavigator';
 
@@ -56,10 +57,15 @@ const Label = ({ shoesInCartCount, label, activeIndex, index }) => {
 };
 
 function CustomDrawerContent(props) {
+    const disptach = useDispatch();
     const userId = useSelector((state) => state.user.id);
     const { data: user } = useGetUserByIdQuery(userId);
     const activeIndex = props.state.routes[0].state?.index || 0;
     const shoesInCartCount = user?.cart?.shoes?.length;
+
+    const logout = () => {
+        disptach(setToken());
+    };
 
     return (
         <DrawerContentScrollView {...props}>
@@ -105,7 +111,7 @@ function CustomDrawerContent(props) {
             ))}
             <DrawerItem
                 label="Déconnexion"
-                onPress={() => console.log('logout')}
+                onPress={logout}
                 icon={() => <MaterialIcons name="logout" size={SMALL_ICON_SIZE} color={colors.GREY} />}
                 labelStyle={[styles.label, { color: colors.GREY }]}
                 style={styles.logoutItem}
