@@ -13,11 +13,9 @@ import TextBoldXL from '../../ui-components/texts/TextBoldXL';
 import ListItem from './components/ListItem';
 
 export default function Cart() {
-    const userId = useSelector((state) => state.user.id);
-    const { data: user, isLoading } = useGetUserByIdQuery(userId);
+    const { userId, token } = useSelector((state) => state.auth);
+    const { data: user } = useGetUserByIdQuery({ userId, token });
     const [updateUser] = useUpdateUserMutation();
-    // const state = useSelector((state) => state.cart);
-    // const { shoes, totalAmount } = state;
 
     const totalAmount = user?.cart?.totalAmount;
 
@@ -28,7 +26,8 @@ export default function Cart() {
             totalAmount: user.cart.totalAmount - shoesToRemove.price * shoesToRemove.quantity,
         };
         updateUser({
-            id: userId,
+            userId,
+            token,
             cart: newCart,
         });
     };
@@ -45,7 +44,8 @@ export default function Cart() {
             newCart.totalAmount -= newCart.shoes[index].price;
         }
         updateUser({
-            id: userId,
+            userId,
+            token,
             cart: newCart,
         });
     };

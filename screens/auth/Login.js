@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSignMutation } from '../../store/api/authApi';
-import { setToken } from '../../store/slices/authSlice';
+import { setToken, setUserId } from '../../store/slices/authSlice';
 import AuthForm from './components/AuthForm';
 
 export default function Login({ navigation }) {
@@ -22,6 +22,7 @@ export default function Login({ navigation }) {
     useEffect(() => {
         if (data) {
             dispatch(setToken(data.idToken));
+            dispatch(setUserId(data.localId));
         }
     }, [data]);
 

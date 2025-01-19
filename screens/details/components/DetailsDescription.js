@@ -18,8 +18,8 @@ export default function DetailsDescription({ name, price, description, id }) {
     //         favorites: data,
     //     }),
     // });
-    const userId = useSelector((state) => state.user.id);
-    const { data: user } = useGetUserByIdQuery(userId);
+    const { userId, token } = useSelector((state) => state.auth);
+    const { data: user } = useGetUserByIdQuery({ userId, token });
     const [updateUser] = useUpdateUserMutation();
     const isFavorite = user?.favoritesIds?.includes(id);
 
@@ -29,18 +29,21 @@ export default function DetailsDescription({ name, price, description, id }) {
         if (isFavorite) {
             // dispatch(removeFavorite(id));
             updateUser({
-                id: userId,
+                userId,
+                token,
                 favoritesIds: user.favoritesIds.filter((el) => el !== id),
             });
         } else if (user?.favoritesIds) {
             // dispatch(addFavorite(id));
             updateUser({
-                id: userId,
+                userId,
+                token,
                 favoritesIds: [...user.favoritesIds, id],
             });
         } else {
             updateUser({
-                id: userId,
+                userId,
+                token,
                 favoritesIds: [id],
             });
         }

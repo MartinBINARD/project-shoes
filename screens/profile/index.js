@@ -5,13 +5,14 @@ import { useGetUserByIdQuery, useUpdateUserMutation } from '../../store/api/user
 import ProfileForm from './components/ProfileForm';
 
 export default function Profile() {
-    const userId = useSelector((state) => state.user.id);
-    const { data: user, isLoading } = useGetUserByIdQuery(userId);
+    const { userId, token } = useSelector((state) => state.auth);
+    const { data: user, isLoading } = useGetUserByIdQuery({ userId, token });
     const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
 
     const updateUserProfile = (values) => {
         updateUser({
-            id: userId,
+            userId,
+            token,
             ...values,
         });
     };

@@ -58,8 +58,8 @@ const Label = ({ shoesInCartCount, label, activeIndex, index }) => {
 
 function CustomDrawerContent(props) {
     const disptach = useDispatch();
-    const userId = useSelector((state) => state.user.id);
-    const { data: user } = useGetUserByIdQuery(userId);
+    const { userId, token } = useSelector((state) => state.auth);
+    const { data: user } = useGetUserByIdQuery({ userId, token });
     const activeIndex = props.state.routes[0].state?.index || 0;
     const shoesInCartCount = user?.cart?.shoes?.length;
 

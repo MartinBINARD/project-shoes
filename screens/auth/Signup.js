@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSignMutation } from '../../store/api/authApi';
 import { useCreateUserMutation } from '../../store/api/userApi';
-import { setToken } from '../../store/slices/authSlice';
-import { setUserId } from '../../store/slices/userSlice';
+import { setToken, setUserId } from '../../store/slices/authSlice';
 import AuthForm from './components/AuthForm';
 
 export default function Signup({ navigation }) {

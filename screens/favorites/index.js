@@ -11,8 +11,8 @@ import TextBoldL from '../../ui-components/texts/TextBoldL';
 
 export default function Favorites({ navigation }) {
     // const favoritesShoesIds = useSelector((state) => state.favorites.favoritesShoesIds);
-    const userId = useSelector((state) => state.user.id);
-    const { data: user, isLoading } = useGetUserByIdQuery(userId);
+    const { userId, token } = useSelector((state) => state.auth);
+    const { data: user, isLoading } = useGetUserByIdQuery({ userId, token });
 
     const data = user?.favoritesIds?.map((id) =>
         shoes.find((item) => item.stock.find((elem) => elem.id === id)).stock.find((el) => el.id === id),

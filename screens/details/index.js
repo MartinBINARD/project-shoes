@@ -12,8 +12,8 @@ import Gallery from './components/Gallery';
 import Sizes from './components/Sizes';
 
 export default function Details({ route, navigation }) {
-    const userId = useSelector((state) => state.user.id);
-    const { data: user } = useGetUserByIdQuery(userId);
+    const { userId, token } = useSelector((state) => state.auth);
+    const { data: user } = useGetUserByIdQuery({ userId, token });
     const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
 
     const data = shoes
@@ -40,7 +40,8 @@ export default function Details({ route, navigation }) {
         const totalAmount = user?.cart?.totalAmount ? user?.cart?.totalAmount + item.price : item.price;
 
         updateUser({
-            id: userId,
+            userId,
+            token,
             cart: {
                 shoes,
                 totalAmount,

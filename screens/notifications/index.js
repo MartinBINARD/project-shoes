@@ -10,8 +10,8 @@ import ListItem from './components/Listitem';
 const ids = ['nik43p', 'nik47p', 'nik64p'];
 
 export default function Notifications({ navigation }) {
-    const userId = useSelector((state) => state.user.id);
-    const { data: user, isLoading } = useGetUserByIdQuery(userId);
+    const { userId, token } = useSelector((state) => state.auth);
+    const { data: user, isLoading } = useGetUserByIdQuery({ userId, token });
     const [updateUser] = useUpdateUserMutation();
 
     const data = ids.map((id) => shoes.find((item) => item.stock.find((elem) => elem.id === id)).stock.find((item) => item.id === id));
@@ -21,12 +21,14 @@ export default function Notifications({ navigation }) {
     const updateNotif = (id) => {
         if (user?.seenNotifsIds) {
             updateUser({
-                id: userId,
+                userId,
+                token,
                 seenNotifsIds: [...user.seenNotifsIds, id],
             });
         } else {
             updateUser({
-                id: userId,
+                userId,
+                token,
                 seenNotifsIds: [id],
             });
         }

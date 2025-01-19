@@ -9,14 +9,12 @@ import cartReducer from './slices/cartSlice';
 import errorReducer from './slices/errorSlice';
 import favoriteReducer from './slices/favoritesSlice';
 import notficationsReducer from './slices/notificationsSlice';
-import userReducer from './slices/userSlice';
 
 export const store = configureStore({
     reducer: {
         favorites: favoriteReducer,
         notifications: notficationsReducer,
         cart: cartReducer,
-        user: userReducer,
         error: errorReducer,
         auth: authReducer,
         [favoritesApi.reducerPath]: favoritesApi.reducer,
