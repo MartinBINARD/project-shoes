@@ -1,5 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
+import * as SecureStore from 'expo-secure-store';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import CartIcon from '../assets/images/navigation/cart.svg';
@@ -12,7 +13,7 @@ import { radius } from '../constants/radius';
 import { SMALL_ICON_SIZE } from '../constants/sizes';
 import { spaces } from '../constants/spaces';
 import { useGetUserByIdQuery } from '../store/api/userApi';
-import { setToken } from '../store/slices/authSlice';
+import { setToken, setUserId } from '../store/slices/authSlice';
 import TextBoldXL from '../ui-components/texts/TextBoldXL';
 import BottomTabsNavigator from './BottomTabsNavigator';
 
@@ -65,6 +66,8 @@ function CustomDrawerContent(props) {
 
     const logout = () => {
         disptach(setToken());
+        disptach(setUserId());
+        SecureStore.deleteItemAsync('refreshToken');
     };
 
     return (

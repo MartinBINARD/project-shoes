@@ -7,8 +7,6 @@ const errorMessages = {
 };
 
 export const rtkQueryErrorMiddleware = (api) => (next) => (action) => {
-    console.log(action.payload);
-
     if (isRejectedWithValue(action)) {
         api.dispatch(
             setHttpErrorMessage(

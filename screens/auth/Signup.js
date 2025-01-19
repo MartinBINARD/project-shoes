@@ -1,3 +1,4 @@
+import * as SecureStore from 'expo-secure-store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSignMutation } from '../../store/api/authApi';
@@ -30,7 +31,8 @@ export default function Signup({ navigation }) {
     useEffect(() => {
         if (data && user) {
             dispatch(setToken(data.idToken));
-            dispatch(setUserId(data?.localId));
+            dispatch(setUserId(data.localId));
+            SecureStore.setItemAsync('refreshToken', data.refreshToken);
         }
     }, [data, user]);
 
