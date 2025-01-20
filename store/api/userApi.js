@@ -1,8 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQueryWithReauth } from './baseQueryWithReauth';
 
 export const userApi = createApi({
     reducerPath: 'userApi',
-    baseQuery: fetchBaseQuery({ baseUrl: process.env.EXPO_PUBLIC_API_URL }),
+    baseQuery: baseQueryWithReauth,
     endpoints: (builder) => ({
         getUser: builder.query({
             query: () => `users.json`,
@@ -20,7 +21,9 @@ export const userApi = createApi({
             },
         }),
         getUserById: builder.query({
-            query: ({ userId, token }) => `users/${userId}.json?auth=${token}`,
+            query: ({ userId, token }) => ({
+                url: `users/${userId}.json?auth=${token}`,
+            }),
         }),
         createUser: builder.mutation({
             query: ({ user, token, id }) => ({
