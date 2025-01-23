@@ -6,8 +6,9 @@ import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native';
 import { colors } from '../../../constants/colors';
 import CustomButton from '../../../ui-components/buttons/CustomButton';
 import Input from '../../../ui-components/inputs/Input';
+import ProfilePicture from './ProfilePicture';
 
-export default function ProfileForm({ user, submitFormHandler, isLoading }) {
+export default function ProfileForm({ user, submitFormHandler, isLoading, image, setImage }) {
     const initialValues = {
         email: user.email,
         fullName: user.fullName,
@@ -33,6 +34,7 @@ export default function ProfileForm({ user, submitFormHandler, isLoading }) {
     return (
         <KeyboardAvoidingView behavior="height">
             <ScrollView style={styles.container} contentContainerStyle={styles.formContainer} showsVerticalScrollIndicator={false}>
+                <ProfilePicture image={image} setImage={setImage} />
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitFormHandler}>
                     {({ values, handleChange, handleSubmit, errors, touched, handleBlur }) => (
                         <>
