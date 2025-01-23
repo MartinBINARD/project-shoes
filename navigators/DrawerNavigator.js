@@ -1,4 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
 import * as SecureStore from 'expo-secure-store';
 import { Image, StyleSheet, Text, View } from 'react-native';
@@ -73,14 +74,20 @@ function CustomDrawerContent(props) {
     return (
         <DrawerContentScrollView {...props}>
             <View style={styles.userInfosContainer}>
-                <Image
-                    source={{
-                        uri: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014_640.jpg',
-                    }}
-                    style={styles.image}
-                    resizeMode="cover"
-                />
-                <TextBoldXL style={styles.text}>John Doe</TextBoldXL>
+                <View style={styles.imageContainer}>
+                    {user?.photoµUrl ? (
+                        <Image
+                            source={{
+                                uri: user.photoµUrl,
+                            }}
+                            style={styles.image}
+                            resizeMode="cover"
+                        />
+                    ) : (
+                        <FontAwesome name="user-circle" size={90} color={colors.BLUE} />
+                    )}
+                </View>
+                <TextBoldXL style={styles.text}>{user?.fullName}</TextBoldXL>
             </View>
             {/* <DrawerItemList {...props} /> */}
             {routes.map((route) => (
@@ -127,6 +134,10 @@ const styles = StyleSheet.create({
     userInfosContainer: {
         marginLeft: spaces.L,
         marginVertical: spaces.XL,
+    },
+    imageContainer: {
+        width: 90,
+        height: 90,
     },
     image: {
         width: 90,
