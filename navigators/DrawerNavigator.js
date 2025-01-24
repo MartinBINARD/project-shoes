@@ -16,6 +16,7 @@ import { spaces } from '../constants/spaces';
 import { useGetUserByIdQuery } from '../store/api/userApi';
 import { setToken, setUserId } from '../store/slices/authSlice';
 import TextBoldXL from '../ui-components/texts/TextBoldXL';
+import { useNotifications } from '../utils/notifications';
 import BottomTabsNavigator from './BottomTabsNavigator';
 
 const Drawer = createDrawerNavigator();
@@ -29,6 +30,9 @@ const routes = [
 ];
 
 export default function MyDrawer() {
+    const { expoPushToken } = useNotifications();
+    console.log(expoPushToken);
+
     return (
         <Drawer.Navigator
             drawerContent={(props) => <CustomDrawerContent {...props} />}

@@ -4,9 +4,9 @@ import { getApps, initializeApp } from 'firebase/app';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
+import { firebaseConfig } from './firebaseConfig';
 import MainStackNavigators from './navigators/MainStackNavigator';
 import { store } from './store/store';
-import { firebaseConfig } from './firebaseConfig';
 
 export default function App() {
     const apps = getApps();
