@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import { Linking, Platform } from 'react-native';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -43,6 +43,15 @@ export const useNotifications = () => {
     const [expoPushToken, setExpoPushToken] = useState();
     useEffect(() => {
         registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
+        const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
+            console.log(response.notification.request.content);
+            const url = response.notification.request.content.data.url;
+            Linking.openURL(url);
+        });
+
+        return () => {
+            subscription.remove();
+        };
     }, []);
 
     useEffect(() => {

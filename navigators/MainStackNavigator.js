@@ -94,7 +94,7 @@ export default function MainStackNavigators() {
                     <>
                         <Stack.Screen
                             component={DrawerNavigator}
-                            name="DrawerNavigator"
+                            name="Drawer"
                             options={{
                                 headerShown: false,
                             }}

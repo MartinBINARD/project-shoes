@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { firebaseConfig } from './firebaseConfig';
 import MainStackNavigators from './navigators/MainStackNavigator';
 import { store } from './store/store';
+import { linkingConfig } from './utils/Linking';
 
 export default function App() {
     const apps = getApps();
@@ -25,7 +26,7 @@ export default function App() {
         <Provider store={store}>
             <SafeAreaProvider>
                 <GestureHandlerRootView>
-                    <NavigationContainer>
+                    <NavigationContainer linking={linkingConfig}>
                         <MainStackNavigators />
                     </NavigationContainer>
                 </GestureHandlerRootView>

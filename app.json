@@ -1,48 +1,47 @@
 {
-  "expo": {
-    "name": "project-shoes",
-    "slug": "project-shoes",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash/splash-screen.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "softwareKeyboardLayoutMode": "pan",
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-secure-store",
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
-        }
-      ],
-      "expo-notifications"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "abeea5bd-188c-49d5-b9a7-00248877ac41"
-      }
-    },
-    "owner": "martin589614"
-  }
+    "expo": {
+        "name": "project-shoes",
+        "slug": "project-shoes",
+        "scheme": "project-shoes",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "newArchEnabled": true,
+        "splash": {
+            "image": "./assets/splash/splash-screen.png",
+            "resizeMode": "cover",
+            "backgroundColor": "#ffffff"
+        },
+        "ios": {
+            "supportsTablet": true
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "softwareKeyboardLayoutMode": "pan",
+            "permissions": ["android.permission.RECORD_AUDIO"]
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "plugins": [
+            "expo-secure-store",
+            [
+                "expo-image-picker",
+                {
+                    "photosPermission": "The app accesses your photos to let you share them with your friends."
+                }
+            ],
+            "expo-notifications"
+        ],
+        "extra": {
+            "eas": {
+                "projectId": "abeea5bd-188c-49d5-b9a7-00248877ac41"
+            }
+        },
+        "owner": "martin589614"
+    }
 }
