@@ -1,3 +1,5 @@
+import { initStripe } from '@stripe/stripe-react-native';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
@@ -5,17 +7,42 @@ import { colors } from '../../constants/colors';
 import { radius } from '../../constants/radius';
 import { IS_LARGE_SCREEN } from '../../constants/sizes';
 import { spaces } from '../../constants/spaces';
+import { useFetcthPublishableKeyQuery } from '../../store/api/stripe';
 import { useGetUserByIdQuery, useUpdateUserMutation } from '../../store/api/userApi';
-import CustomButton from '../../ui-components/buttons/CustomButton';
 import ListItemSeparator from '../../ui-components/separators/ListItemSeparator';
 import TextBoldL from '../../ui-components/texts/TextBoldL';
 import TextBoldXL from '../../ui-components/texts/TextBoldXL';
 import ListItem from './components/ListItem';
+import PaymentButton from './components/PaymentButton';
+import PaymentSuccess from './components/PaymentSuccess';
 
 export default function Cart() {
+    const [isPaymentDone, setIsPaymentDone] = useState(false);
     const { userId, token } = useSelector((state) => state.auth);
     const { data: user } = useGetUserByIdQuery({ userId, token });
     const [updateUser] = useUpdateUserMutation();
+    const [isStripeInitialized, setIsStripeInitialized] = useState(false);
+
+    const { data, isLoading } = useFetcthPublishableKeyQuery();
+    console.log(data);
+
+    useEffect(() => {
+        if (data?.publishableKey) {
+            initStripe({ publishableKey: data.publishableKey }).then(() => setIsStripeInitialized(true));
+        }
+    }, [data]);
+
+    const resetCart = () => {
+        setIsPaymentDone(false);
+        updateUser({
+            userId,
+            token,
+            cart: {
+                shoes: [],
+                totalAmount: 0,
+            },
+        });
+    };
 
     const totalAmount = user?.cart?.totalAmount;
 
@@ -88,8 +115,11 @@ export default function Cart() {
                     <TextBoldXL>Total</TextBoldXL>
                     <TextBoldXL>{totalAmount + Math.floor(totalAmount / 15)} €</TextBoldXL>
                 </View>
-                <CustomButton text="Passer la commande" />
+                <View style={[styles.rowContainer, { marginBottom: 90 }]}>
+                    <PaymentButton isReady={isStripeInitialized} setIsPaymentDone={setIsPaymentDone} />
+                </View>
             </View>
+            {isPaymentDone ? <PaymentSuccess onPress={resetCart} /> : null}
         </View>
     );
 }

@@ -24,7 +24,6 @@ export default function MainStackNavigators() {
     const [isLoading, setIsLoading] = useState(!token);
     const [isAppReady, setIsAppReady] = useState(false);
     const httpError = useSelector((state) => state.error.httpError);
-    console.log('httpError', httpError);
 
     const dispatch = useDispatch();
     const closeHttpErrorModal = () => {

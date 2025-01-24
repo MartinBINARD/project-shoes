@@ -7,7 +7,6 @@ const baseQuery = fetchBaseQuery({ baseUrl: process.env.EXPO_PUBLIC_API_URL });
 export const baseQueryWithReauth = async (args, api, extraOptions) => {
     // 1 Execute query or mutation
     let result = await baseQuery(args, api, extraOptions);
-    console.log(result);
     if (result?.error?.status === 401) {
         // 2 Get refreshToken
         const refreshToken = await SecureStore.getItemAsync('refreshToken');
@@ -25,7 +24,6 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
                 api,
                 extraOptions,
             );
-            console.log(refreshResult.data);
             if (refreshResult.data) {
                 // 4 Store new tokens
                 api.dispatch(setToken(refreshResult.data.id_token));
@@ -34,7 +32,6 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
                 args.url = args.url.split('auth=')[0] + `auth=${refreshResult.data.id_token}`;
                 // 6 Retry initial query or mutation with new token
                 result = await baseQuery(args, api, extraOptions);
-                console.log(result.data);
             } else {
                 // Disconnect user if refreshing has failed
                 api.dispatch(setToken());

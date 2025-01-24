@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authApi } from './api/authApi';
 import { favoritesApi } from './api/favoritesApi';
 import { notificationsApi } from './api/notificationsApi';
+import { stripeApi } from './api/stripe';
 import { userApi } from './api/userApi';
 import { rtkQueryErrorMiddleware } from './middlewares/errorMiddleware';
 import authReducer from './slices/authSlice';
@@ -21,6 +22,7 @@ export const store = configureStore({
         [notificationsApi.reducerPath]: notificationsApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
+        [stripeApi.reducerPath]: stripeApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -28,5 +30,6 @@ export const store = configureStore({
             .concat(notificationsApi.middleware)
             .concat(userApi.middleware)
             .concat(rtkQueryErrorMiddleware)
-            .concat(authApi.middleware),
+            .concat(authApi.middleware)
+            .concat(stripeApi.middleware),
 });
