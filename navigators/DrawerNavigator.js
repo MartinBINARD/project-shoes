@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import * as SecureStore from 'expo-secure-store';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ import { radius } from '../constants/radius';
 import { SMALL_ICON_SIZE } from '../constants/sizes';
 import { spaces } from '../constants/spaces';
 import { useGetUserByIdQuery } from '../store/api/userApi';
-import { setToken, setUserId } from '../store/slices/authSlice';
+import { setToken } from '../store/slices/authSlice';
 import TextBoldXL from '../ui-components/texts/TextBoldXL';
 import { useNotifications } from '../utils/notifications';
 import BottomTabsNavigator from './BottomTabsNavigator';
@@ -23,13 +23,18 @@ const Drawer = createDrawerNavigator();
 
 const routes = [
     { name: 'HomeStack', label: 'Accueil', icon: HomeIcon, index: 0 },
-    { name: 'Favorite', label: 'Favoris', icon: FavoriteIcon, index: 1 },
+    { name: 'Favorites', label: 'Favoris', icon: FavoriteIcon, index: 1 },
     { name: 'MainCart', label: 'Panier', icon: CartIcon, index: 2 },
-    { name: 'Notifications', label: 'Notifications', icon: NotificationsIcon, index: 3 },
+    {
+        name: 'Notifications',
+        label: 'Notifications',
+        icon: NotificationsIcon,
+        index: 3,
+    },
     { name: 'Profile', label: 'Profil', icon: ProfileIcon, index: 4 },
 ];
 
-export default function MyDrawer() {
+export default function DrawerNavigator() {
     const { expoPushToken } = useNotifications();
     console.log(expoPushToken);
 
@@ -39,7 +44,7 @@ export default function MyDrawer() {
             screenOptions={{
                 drawerStyle: {
                     backgroundColor: colors.DARK,
-                    width: '70%',
+                    width: '72%',
                 },
                 overlayColor: 'transparent',
                 sceneContainerStyle: {
@@ -67,29 +72,26 @@ const Label = ({ shoesInCartCount, label, activeIndex, index }) => {
 };
 
 function CustomDrawerContent(props) {
-    const disptach = useDispatch();
+    const dispatch = useDispatch();
     const { userId, token } = useSelector((state) => state.auth);
     const { data: user } = useGetUserByIdQuery({ userId, token });
     const activeIndex = props.state.routes[0].state?.index || 0;
     const shoesInCartCount = user?.cart?.shoes?.length;
 
     const logout = () => {
-        disptach(setToken());
-        disptach(setUserId());
+        dispatch(setToken());
         SecureStore.deleteItemAsync('refreshToken');
     };
-
     return (
-        <DrawerContentScrollView {...props}>
+        <DrawerContentScrollView>
             <View style={styles.userInfosContainer}>
                 <View style={styles.imageContainer}>
-                    {user?.photoµUrl ? (
+                    {user?.photoUrl ? (
                         <Image
                             source={{
-                                uri: user.photoµUrl,
+                                uri: user.photoUrl,
                             }}
                             style={styles.image}
-                            resizeMode="cover"
                         />
                     ) : (
                         <FontAwesome name="user-circle" size={90} color={colors.BLUE} />
@@ -117,22 +119,17 @@ function CustomDrawerContent(props) {
                             }
                         />
                     )}
-                    onPress={() => {
-                        if (route.name === 'MainCart') {
-                            props.navigation.navigate(route.name);
-                        } else {
-                            props.navigation.navigate('BottomTabs', { screen: route.name });
-                        }
-                    }}
+                    onPress={() => props.navigation.navigate(route.name)}
                     labelStyle={[styles.label, { color: activeIndex === route.index ? colors.WHITE : colors.GREY }]}
                 />
             ))}
+
             <DrawerItem
                 label="Déconnexion"
-                onPress={logout}
                 icon={() => <MaterialIcons name="logout" size={SMALL_ICON_SIZE} color={colors.GREY} />}
                 labelStyle={[styles.label, { color: colors.GREY }]}
                 style={styles.logoutItem}
+                onPress={logout}
             />
         </DrawerContentScrollView>
     );

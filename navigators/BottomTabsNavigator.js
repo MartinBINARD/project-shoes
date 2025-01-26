@@ -16,10 +16,10 @@ import { FOCUSED_ICON_SIZE, IS_LARGE_SCREEN, SCREEN_WIDTH, SMALL_ICON_SIZE } fro
 import { spaces } from '../constants/spaces';
 import Cart from '../screens/cart';
 import Favorites from '../screens/favorites';
+import HomeScreen from '../screens/home';
 import Notifications from '../screens/notifications';
 import Profile from '../screens/profile';
 import { useGetUserByIdQuery } from '../store/api/userApi';
-import HomeStackNavigator from './HomeStackNavigators';
 import AnimatedScreenWrapper from './components/AnimatedScreenWrapper';
 
 const Tabs = createBottomTabNavigator();
@@ -34,7 +34,6 @@ export default function BottomTabsNavigator() {
     const badgeCount = user?.cart?.shoes?.length;
     const insets = useSafeAreaInsets();
     const navigation = useNavigation();
-
     return (
         <AnimatedScreenWrapper>
             <View
@@ -51,9 +50,13 @@ export default function BottomTabsNavigator() {
                             height: originalHeight,
                             backgroundColor: colors.LIGHT,
                             paddingTop: insets.bottom + 20,
-                            elevation: 0,
                             borderTopWidth: 0,
+                            elevation: 0,
                         },
+                        headerStyle: {
+                            backgroundColor: colors.LIGHT,
+                        },
+                        headerShadowVisible: false,
                         tabBarShowLabel: false,
                         tabBarActiveTintColor: colors.BLUE,
                         tabBarInactiveTintColor: colors.GREY,
@@ -75,10 +78,11 @@ export default function BottomTabsNavigator() {
                     })}
                 >
                     <Tabs.Screen
-                        component={HomeStackNavigator}
+                        component={HomeScreen}
                         name="HomeStack"
                         options={{
-                            headerShown: false,
+                            // headerShown: false,
+                            title: 'Shoes',
                             tabBarIcon: ({ color, focused }) => (
                                 <HomeIcon
                                     width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
@@ -114,7 +118,7 @@ export default function BottomTabsNavigator() {
                             tabBarBadge: badgeCount ? badgeCount : undefined,
                             tabBarBadgeStyle: {
                                 backgroundColor: colors.LIGHT,
-                                colors: colors.BLUE,
+                                color: colors.BLUE,
                                 marginTop: Platform.select({ ios: -30, android: 0 }),
                             },
                             tabBarIcon: ({ color }) => (
@@ -148,6 +152,7 @@ export default function BottomTabsNavigator() {
                         component={Profile}
                         name="Profile"
                         options={{
+                            title: 'Profil',
                             tabBarIcon: ({ color, focused }) => (
                                 <ProfileIcon
                                     width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
