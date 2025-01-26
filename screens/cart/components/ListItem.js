@@ -1,4 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
+import { Skeleton } from 'moti/skeleton';
 import { Image, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { colors } from '../../../constants/colors';
 import { radius } from '../../../constants/radius';
@@ -8,7 +9,12 @@ import TextBoldL from '../../../ui-components/texts/TextBoldL';
 import TextBoldM from '../../../ui-components/texts/TextBoldM';
 import TextBoldXL from '../../../ui-components/texts/TextBoldXL';
 
-export default function ListItem({ item, removeShoesFromCart, updateQuantity }) {
+export const SkeletonProps = {
+    colorMode: 'light',
+    radius: radius.REGULAR,
+};
+
+export default function ListItem({ item, removeShoesFromCart, updateQuantity, isLoading }) {
     const decreaseShoesQuantity = () => {
         if (item.quantity > 1) {
             updateQuantity(item.id, false);
@@ -23,29 +29,46 @@ export default function ListItem({ item, removeShoesFromCart, updateQuantity }) 
 
     return (
         <View style={styles.container}>
-            <View style={styles.leftContainer}>
-                <View style={styles.imageContainer}>
-                    <Image source={item.image} style={styles.image} />
-                </View>
-                <View style={styles.columnContainer}>
-                    <TextBoldL>{item.name}</TextBoldL>
-                    <TextBoldL>{item.price} €</TextBoldL>
-                    <View style={styles.quantityContainer}>
-                        <Pressable style={[styles.operationSignContainer, styles.substractSignContainer]} onPress={decreaseShoesQuantity}>
-                            <TextBoldXL style={styles.minusText}>-</TextBoldXL>
-                        </Pressable>
-                        <TextBoldM style={styles.quantityText}>{item.quantity}</TextBoldM>
-                        <Pressable style={[styles.operationSignContainer, styles.addSignContainer]} onPress={increaseShoesQuantity}>
-                            <TextBoldXL style={styles.plusText}>+</TextBoldXL>
-                        </Pressable>
+            <Skeleton.Group show={isLoading}>
+                <View style={styles.leftContainer}>
+                    <Skeleton width={120} {...SkeletonProps}>
+                        <View style={styles.imageContainer}>
+                            <Image source={item.image} style={styles.image} />
+                        </View>
+                    </Skeleton>
+                    <View style={styles.columnContainer}>
+                        <Skeleton width={120} {...SkeletonProps}>
+                            <TextBoldL>{item.name}</TextBoldL>
+                        </Skeleton>
+                        <Skeleton width={120} {...SkeletonProps}>
+                            <TextBoldL>{item.price} €</TextBoldL>
+                        </Skeleton>
+                        <Skeleton width={120} {...SkeletonProps}>
+                            <View style={styles.quantityContainer}>
+                                <Pressable
+                                    style={[styles.operationSignContainer, styles.substractSignContainer]}
+                                    onPress={decreaseShoesQuantity}
+                                >
+                                    <TextBoldXL style={styles.minusText}>-</TextBoldXL>
+                                </Pressable>
+                                <TextBoldM style={styles.quantityText}>{item.quantity}</TextBoldM>
+                                <Pressable style={[styles.operationSignContainer, styles.addSignContainer]} onPress={increaseShoesQuantity}>
+                                    <TextBoldXL style={styles.plusText}>+</TextBoldXL>
+                                </Pressable>
+                            </View>
+                        </Skeleton>
                     </View>
                 </View>
-            </View>
 
-            <View style={[styles.rightContainer, styles.columnContainer]}>
-                <TextBoldL>{item.size}</TextBoldL>
-                <Feather name="trash-2" size={ICON_SIZE} color={colors.GREY} suppressHighlighting={true} onPress={removeShoes} />
-            </View>
+                <View style={[styles.rightContainer, styles.columnContainer]}>
+                    <Skeleton width={120} {...SkeletonProps}>
+                        <TextBoldL>{item.size}</TextBoldL>
+                    </Skeleton>
+                    <Skeleton width={120} {...SkeletonProps}>
+                        <Feather name="trash-2" size={ICON_SIZE} color={colors.GREY} suppressHighlighting={true} onPress={removeShoes} />
+                    </Skeleton>
+                </View>
+            </Skeleton.Group>
         </View>
     );
 }
