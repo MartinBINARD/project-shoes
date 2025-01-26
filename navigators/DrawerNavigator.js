@@ -39,8 +39,12 @@ export default function MyDrawer() {
             screenOptions={{
                 drawerStyle: {
                     backgroundColor: colors.DARK,
+                    width: '70%',
                 },
-                overlayColor: colors.DARK,
+                overlayColor: 'transparent',
+                sceneContainerStyle: {
+                    backgroundColor: colors.DARK,
+                },
                 headerShown: false,
             }}
         >

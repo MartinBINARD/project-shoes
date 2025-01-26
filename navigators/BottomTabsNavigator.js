@@ -20,6 +20,7 @@ import Notifications from '../screens/notifications';
 import Profile from '../screens/profile';
 import { useGetUserByIdQuery } from '../store/api/userApi';
 import HomeStackNavigator from './HomeStackNavigators';
+import AnimatedScreenWrapper from './components/AnimatedScreenWrapper';
 
 const Tabs = createBottomTabNavigator();
 
@@ -35,124 +36,130 @@ export default function BottomTabsNavigator() {
     const navigation = useNavigation();
 
     return (
-        <View
-            style={{
-                flex: 1,
-                paddingBottom: insets.bottom,
-                backgroundColor: colors.WHITE,
-            }}
-        >
-            <Tabs.Navigator
-                screenOptions={({ navigation }) => ({
-                    unmountOnBlur: true,
-                    tabBarStyle: {
-                        height: originalHeight,
-                        backgroundColor: colors.LIGHT,
-                        paddingTop: insets.bottom + 20,
-                        elevation: 0,
-                        borderTopWidth: 0,
-                    },
-                    tabBarShowLabel: false,
-                    tabBarActiveTintColor: colors.BLUE,
-                    tabBarInactiveTintColor: colors.GREY,
-                    tabBarBackground: () => (
-                        <View style={{ aspectRatio }}>
-                            <BottomTabsBackground width={SCREEN_WIDTH} height={'100%'} viewBox={`0 0 ${originalWidth} ${originalHeight}`} />
-                        </View>
-                    ),
-                    headerTitleAlign: 'center',
-                    headerLeft: () => (
-                        <Pressable style={styles.drawerIconContainer} onPress={() => navigation.getParent().openDrawer()}>
-                            <DrawerIcon />
-                        </Pressable>
-                    ),
-                })}
+        <AnimatedScreenWrapper>
+            <View
+                style={{
+                    flex: 1,
+                    paddingBottom: insets.bottom,
+                    backgroundColor: colors.WHITE,
+                }}
             >
-                <Tabs.Screen
-                    component={HomeStackNavigator}
-                    name="HomeStack"
-                    options={{
-                        headerShown: false,
-                        tabBarIcon: ({ color, focused }) => (
-                            <HomeIcon
-                                width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                color={color}
-                            />
-                        ),
-                    }}
-                />
-                <Tabs.Screen
-                    component={Favorites}
-                    name="Favorites"
-                    options={{
-                        tabBarIcon: ({ color, focused }) => (
-                            <FavoriteIcon
-                                width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                color={color}
-                            />
-                        ),
-                    }}
-                />
-                <Tabs.Screen
-                    component={Cart}
-                    name="Cart"
-                    listeners={{
-                        tabPress: (e) => {
-                            e.preventDefault();
-                            navigation.navigate('MainCart');
-                        },
-                    }}
-                    options={({ navigation }) => ({
-                        tabBarBadge: badgeCount ? badgeCount : undefined,
-                        tabBarBadgeStyle: {
+                <Tabs.Navigator
+                    screenOptions={({ navigation }) => ({
+                        unmountOnBlur: true,
+                        tabBarStyle: {
+                            height: originalHeight,
                             backgroundColor: colors.LIGHT,
-                            colors: colors.BLUE,
-                            marginTop: Platform.select({ ios: -30, android: 0 }),
+                            paddingTop: insets.bottom + 20,
+                            elevation: 0,
+                            borderTopWidth: 0,
                         },
-                        tabBarIcon: ({ color }) => (
-                            <Pressable
-                                style={[styles.cartContainer, badgeCount ? styles.activeCart : styles.inactiveCart]}
-                                onPress={() => navigation.navigate('MainCart')}
-                            >
-                                <CartIcon
-                                    width={badgeCount ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                    height={badgeCount ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                    color={badgeCount ? colors.WHITE : color}
+                        tabBarShowLabel: false,
+                        tabBarActiveTintColor: colors.BLUE,
+                        tabBarInactiveTintColor: colors.GREY,
+                        tabBarBackground: () => (
+                            <View style={{ aspectRatio }}>
+                                <BottomTabsBackground
+                                    width={SCREEN_WIDTH}
+                                    height={'100%'}
+                                    viewBox={`0 0 ${originalWidth} ${originalHeight}`}
                                 />
+                            </View>
+                        ),
+                        headerTitleAlign: 'center',
+                        headerLeft: () => (
+                            <Pressable style={styles.drawerIconContainer} onPress={() => navigation.getParent().openDrawer()}>
+                                <DrawerIcon />
                             </Pressable>
                         ),
                     })}
-                />
-                <Tabs.Screen
-                    component={Notifications}
-                    name="Notifications"
-                    options={{
-                        tabBarIcon: ({ color, focused }) => (
-                            <NotificationsIcon
-                                width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                color={color}
-                            />
-                        ),
-                    }}
-                />
-                <Tabs.Screen
-                    component={Profile}
-                    name="Profile"
-                    options={{
-                        tabBarIcon: ({ color, focused }) => (
-                            <ProfileIcon
-                                width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
-                                color={color}
-                            />
-                        ),
-                    }}
-                />
-            </Tabs.Navigator>
-        </View>
+                >
+                    <Tabs.Screen
+                        component={HomeStackNavigator}
+                        name="HomeStack"
+                        options={{
+                            headerShown: false,
+                            tabBarIcon: ({ color, focused }) => (
+                                <HomeIcon
+                                    width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                    height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                    color={color}
+                                />
+                            ),
+                        }}
+                    />
+                    <Tabs.Screen
+                        component={Favorites}
+                        name="Favorites"
+                        options={{
+                            tabBarIcon: ({ color, focused }) => (
+                                <FavoriteIcon
+                                    width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                    height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                    color={color}
+                                />
+                            ),
+                        }}
+                    />
+                    <Tabs.Screen
+                        component={Cart}
+                        name="Cart"
+                        listeners={{
+                            tabPress: (e) => {
+                                e.preventDefault();
+                                navigation.navigate('MainCart');
+                            },
+                        }}
+                        options={({ navigation }) => ({
+                            tabBarBadge: badgeCount ? badgeCount : undefined,
+                            tabBarBadgeStyle: {
+                                backgroundColor: colors.LIGHT,
+                                colors: colors.BLUE,
+                                marginTop: Platform.select({ ios: -30, android: 0 }),
+                            },
+                            tabBarIcon: ({ color }) => (
+                                <Pressable
+                                    style={[styles.cartContainer, badgeCount ? styles.activeCart : styles.inactiveCart]}
+                                    onPress={() => navigation.navigate('MainCart')}
+                                >
+                                    <CartIcon
+                                        width={badgeCount ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                        height={badgeCount ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                        color={badgeCount ? colors.WHITE : color}
+                                    />
+                                </Pressable>
+                            ),
+                        })}
+                    />
+                    <Tabs.Screen
+                        component={Notifications}
+                        name="Notifications"
+                        options={{
+                            tabBarIcon: ({ color, focused }) => (
+                                <NotificationsIcon
+                                    width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                    height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                    color={color}
+                                />
+                            ),
+                        }}
+                    />
+                    <Tabs.Screen
+                        component={Profile}
+                        name="Profile"
+                        options={{
+                            tabBarIcon: ({ color, focused }) => (
+                                <ProfileIcon
+                                    width={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                    height={focused ? FOCUSED_ICON_SIZE : SMALL_ICON_SIZE}
+                                    color={color}
+                                />
+                            ),
+                        }}
+                    />
+                </Tabs.Navigator>
+            </View>
+        </AnimatedScreenWrapper>
     );
 }
 
