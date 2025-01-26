@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { SCREEN_HEIGHT } from '../../constants/sizes';
 import { spaces } from '../../constants/spaces';
 import { shoes } from '../../data/shoes';
 import { useGetUserByIdQuery, useUpdateUserMutation } from '../../store/api/userApi';
 import CustomButton from '../../ui-components/buttons/CustomButton';
+import AnimatedHeader from './components/AnimatedHeader';
 import DetailsDescription from './components/DetailsDescription';
 import DetailsImage from './components/DetailsImage';
 import Gallery from './components/Gallery';
 import Sizes from './components/Sizes';
 
 export default function Details({ route, navigation }) {
+    const [shouldAnimate, setShouldAnimate] = useState(false);
     const { userId, token } = useSelector((state) => state.auth);
     const { data: user } = useGetUserByIdQuery({ userId, token });
     const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
@@ -28,6 +29,7 @@ export default function Details({ route, navigation }) {
     const [sizes, setSizes] = useState(data.items[0].sizes);
 
     const addToCart = () => {
+        setShouldAnimate(true);
         const item = {
             id: data.id + Date.now(),
             name: brand.charAt(0).toUpperCase() + brand.slice(1) + ' ' + data.name,
@@ -59,26 +61,22 @@ export default function Details({ route, navigation }) {
     }, [route.params.id]);
 
     return (
-        <View style={styles.mainContainer}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.container}>
-                    <DetailsImage source={selectedImage} />
-                    <DetailsDescription name={data.name} price={data.price} description={data.description} id={route.params.id} />
-                    <Gallery images={images} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
-                    <Sizes sizes={sizes} selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
-                    <View style={styles.btnContainer}>
-                        <CustomButton text="Ajouter au panier" onPress={addToCart} isLoading={isUpdating} />
-                    </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+            <AnimatedHeader shouldAnimate={shouldAnimate} setShouldAnimate={setShouldAnimate} cartCount={user?.cart?.shoes?.length ?? 0} />
+            <View style={styles.container}>
+                <DetailsImage source={selectedImage} />
+                <DetailsDescription name={data.name} price={data.price} description={data.description} id={route.params.id} />
+                <Gallery images={images} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
+                <Sizes sizes={sizes} selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
+                <View style={styles.btnContainer}>
+                    <CustomButton text="Ajouter au panier" onPress={addToCart} isLoading={isUpdating} />
                 </View>
-            </ScrollView>
-        </View>
+            </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    mainContainer: {
-        height: SCREEN_HEIGHT,
-    },
     container: {
         position: 'relative',
         bottom: Platform.select({ android: 80, ios: 100 }),
