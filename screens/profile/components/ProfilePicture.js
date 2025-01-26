@@ -1,13 +1,17 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
+import { Skeleton } from 'moti/skeleton';
+import { useState } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { colors } from '../../../constants/colors';
 import { radius } from '../../../constants/radius';
 import { SMALL_ICON_SIZE } from '../../../constants/sizes';
 import { spaces } from '../../../constants/spaces';
+import SIZE from '../../details/components/Sizes';
 
-const ProfilePicture = ({ image, setImage }) => {
+const ProfilePicture = ({ image, setImage, photoUrl }) => {
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -22,8 +26,10 @@ const ProfilePicture = ({ image, setImage }) => {
     return (
         <View style={styles.container}>
             <Pressable style={styles.imageContainer} onPress={pickImage}>
-                {image?.uri ? (
-                    <Image source={{ uri: image.uri }} style={styles.image} />
+                {photoUrl ? (
+                    <Skeleton show={!isImageLoaded} width={SIZE} radius={radius.FULL} colorMode="light">
+                        <Image source={{ uri: image.uri }} style={styles.image} onLoad={() => setIsImageLoaded(true)} />
+                    </Skeleton>
                 ) : (
                     <FontAwesome name="user-circle" size={90} color={colors.BLUE} />
                 )}

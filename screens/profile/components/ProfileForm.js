@@ -34,7 +34,7 @@ export default function ProfileForm({ user, submitFormHandler, isLoading, image,
     return (
         <KeyboardAvoidingView behavior="height">
             <ScrollView style={styles.container} contentContainerStyle={styles.formContainer} showsVerticalScrollIndicator={false}>
-                <ProfilePicture image={image} setImage={setImage} />
+                <ProfilePicture image={image} setImage={setImage} photoUrl={user?.photoUrl} />
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitFormHandler}>
                     {({ values, handleChange, handleSubmit, errors, touched, handleBlur }) => (
                         <>
