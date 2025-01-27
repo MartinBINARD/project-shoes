@@ -37,13 +37,13 @@ export default function ListItem({ item, removeShoesFromCart, updateQuantity, is
                         </View>
                     </Skeleton>
                     <View style={styles.columnContainer}>
-                        <Skeleton width={120} {...SkeletonProps}>
+                        <Skeleton {...SkeletonProps}>
                             <TextBoldL>{item.name}</TextBoldL>
                         </Skeleton>
-                        <Skeleton width={120} {...SkeletonProps}>
+                        <Skeleton {...SkeletonProps}>
                             <TextBoldL>{item.price} €</TextBoldL>
                         </Skeleton>
-                        <Skeleton width={120} {...SkeletonProps}>
+                        <Skeleton {...SkeletonProps}>
                             <View style={styles.quantityContainer}>
                                 <Pressable
                                     style={[styles.operationSignContainer, styles.substractSignContainer]}
@@ -61,10 +61,10 @@ export default function ListItem({ item, removeShoesFromCart, updateQuantity, is
                 </View>
 
                 <View style={[styles.rightContainer, styles.columnContainer]}>
-                    <Skeleton width={120} {...SkeletonProps}>
+                    <Skeleton {...SkeletonProps}>
                         <TextBoldL>{item.size}</TextBoldL>
                     </Skeleton>
-                    <Skeleton width={120} {...SkeletonProps}>
+                    <Skeleton {...SkeletonProps}>
                         <Feather name="trash-2" size={ICON_SIZE} color={colors.GREY} suppressHighlighting={true} onPress={removeShoes} />
                     </Skeleton>
                 </View>
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spaces.L,
     },
     leftContainer: {
-        flex: 0.5,
         flexDirection: 'row',
     },
     imageContainer: {

@@ -104,7 +104,6 @@ export default function Cart() {
                 ItemSeparatorComponent={<ListItemSeparator height={spaces.L} />}
                 numColumns={IS_LARGE_SCREEN ? 2 : 1}
             />
-
             <View style={styles.priceContainer}>
                 <Skeleton.Group show={isLoading}>
                     <View style={styles.rowContainer}>
@@ -113,7 +112,6 @@ export default function Cart() {
                             <TextBoldXL>{totalAmount} €</TextBoldXL>
                         </Skeleton>
                     </View>
-
                     <View style={styles.rowContainer}>
                         <TextBoldXL>Frais de port</TextBoldXL>
                         <Skeleton {...SkeletonProps}>
@@ -128,9 +126,7 @@ export default function Cart() {
                             <TextBoldXL>{totalAmount + Math.floor(totalAmount / 15)} €</TextBoldXL>
                         </Skeleton>
                     </View>
-                    <View style={[styles.rowContainer, { marginBottom: 90 }]}>
-                        <PaymentButton isReady={isStripeInitialized} setIsPaymentDone={setIsPaymentDone} />
-                    </View>
+                    <PaymentButton isReady={isStripeInitialized} setIsPaymentDone={setIsPaymentDone} />
                 </Skeleton.Group>
             </View>
             {isPaymentDone ? <PaymentSuccess onPress={resetCart} /> : null}
@@ -142,8 +138,8 @@ const styles = StyleSheet.create({
     listEmptyContainer: {
         flex: 1,
         backgroundColor: colors.LIGHT,
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     container: {
         flex: 1,
